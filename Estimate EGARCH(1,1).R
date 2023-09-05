@@ -51,7 +51,7 @@ mm=optim(init_value,loglik,method="L-BFGS-B",hessian=T,lower=low,upper=upp)
 pp=mm$par
 names(pp) <- c('const','ar1','theta','gamma','alpha','alpha0')
 round(pp,4)
-# forecast ----------------------------------------------------------------
+# Forecast volatility ----------------------------------------------------------------
 alpha0 <- pp[['alpha0']]
 alpha1 <- pp[['alpha']]
 theta <- pp[['theta']]
