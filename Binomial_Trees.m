@@ -1,6 +1,6 @@
 function Binomial_Value = Binomial(S0,K,r,q,sigma,T,OptionType,ExerciseType,NT)
-% Binomial Trees
-% John C. Hull, Options, Futures, and Other Derivatives, Global Edition, 9th, p.474
+% Binomial Trees. Cox, Ross, and Rubinstein (1979) approach.
+% John C. Hull. Options, Futures, and Other Derivatives, Global Edition. 9th p.474
 dt=T/NT;
 u=exp(sigma*sqrt(dt));
 d=1/u;
