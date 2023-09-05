@@ -1,7 +1,6 @@
 # Estimate the lambda of RiskMetrics models
-# RiskMetrics's lambda is the value that minimizes the MSE of the variance forecast and
-# the realized variance (subsequent 25 days)
-# 
+# RiskMetrics' lambda is the value that minimizes the MSE of variance forecast and realized variance (subsequent 25 days)
+# John C. Hull. Options, Futures, and Other Derivatives, Global Edition. 9th p.564 Further Questions 23.19
 cat("\014")
 rm(list=ls())
 library(tidyverse)
