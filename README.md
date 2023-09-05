@@ -8,5 +8,5 @@
   6. Finite Difference Methods
      i. Implicit Finite Difference (MATLAB)
      ii. Explicit Finite Difference (MATLAB, python, C++)
-  7. 
+  8. 
      
