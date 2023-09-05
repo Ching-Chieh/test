@@ -1,6 +1,6 @@
-* R program
-* Conditional Heteroscedastic ARMA model
-* Ruey S. Tsay, Analysis of Financial Time Series, 3th p.152
+# R program
+# Conditional Heteroscedastic ARMA model
+# Ruey S. Tsay, Analysis of Financial Time Series, 3th p.152
 cat("\014")
 rm(list=ls())
 ret <- scan("sp500.dat")
