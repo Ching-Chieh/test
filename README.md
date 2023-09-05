@@ -23,4 +23,5 @@
      * Time-Varying Correlation Models (Cholesky Reparameterization)
      * Dynamic Conditional Correlation Models
   5. Asymptotic Principal Component Analysis
-     
+  6. Time-Varying Correlation (simple ver.)
+  7. Time-Varying Beta
