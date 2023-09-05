@@ -1,4 +1,4 @@
-# 
+# Ruey S. Tsay. Analysis of Financial Time Series, 3th, p.144. Alternative Model Form
 cat("\014")
 rm(list=ls())
 a0= -0.5975; a=0.213; gam= -0.4355; b=0.9196
