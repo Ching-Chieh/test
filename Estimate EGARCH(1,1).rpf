@@ -1,8 +1,18 @@
+* R handle missing values
+*cat("\014")
+*rm(list=ls())
+*library(tidyverse)
+*library(lubridate)
+*read.table('m-ibmvwew2697.txt',header = T, na.strings = '.') %>% 
+*  as_tibble() %>% 
+*  mutate(date=ymd(date)) %>% 
+*  filter(!is.na(ibm)) %>% 
+*  select(ibm) %>% write_csv(da,'m-ibm2697.csv')
+
 * RATS program
 end(reset)
-OPEN DATA "C:\Users\Jimmy\Desktop\m-ibmvwew2697.txt"
-CALENDAR(M) 1926:1
-DATA(FORMAT=PRN,NOLABELS,ORG=COLUMNS,TOP=2,LEFT=2,RIGHT=2) 1926:01 1997:12 rt
+OPEN DATA "C:\Users\Jimmy\Desktop\m-ibm2697.csv"
+DATA(FORMAT=PRN,NOLABELS,ORG=COLUMNS,TOP=2) 1 862 RT
 linreg(noprint) rt
 # constant rt{1}
 set logh = log(%seesq)
