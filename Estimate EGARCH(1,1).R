@@ -1,5 +1,6 @@
 # Estimate EGARCH(1,1) without using packages.
 # Ruey S. Tsay. Analysis of Financial Time Series, 3th, p.145. Example 3.8.3
+# Estimate ----------------------------------------------------------------
 cat("\014")
 rm(list=ls())
 library(tidyverse)
@@ -47,6 +48,24 @@ S=1e-4
 low=c(-1, -1, -1, S, S, -10)
 upp=c( 1,  1, -S, 1, 1,  10)
 mm=optim(init_value,loglik,method="L-BFGS-B",hessian=T,lower=low,upper=upp)
-pp=round(mm$par,4)
+pp=mm$par
 names(pp) <- c('const','ar1','theta','gamma','alpha','alpha0')
-pp
+round(pp,4)
+# forecast ----------------------------------------------------------------
+alpha0 <- pp[['alpha0']]
+alpha1 <- pp[['alpha']]
+theta <- pp[['theta']]
+gam <- pp[['gamma']]
+sigma_h_sq <- tail(h_series,1)
+epsi_h <- tail(a_series,1)/sqrt(sigma_h_sq)
+g <- function(epsi) theta*epsi + gam*(abs(epsi) - sqrt(2/pi))
+# forecast sigma^2(h+1); h is forecast origin
+sigma_h_1_sq <- sigma_h_sq^alpha1*exp((1-alpha1)*alpha0)*exp(g(epsi_h))
+# forecast sigma^2(h+2)
+w = (1-alpha1)*alpha0 - gam*sqrt(2/pi)
+sigma_h_2_sq <- sigma_h_1_sq^alpha1*exp(w)*(
+  exp((theta+gam)^2/2)*pnorm(theta+gam) + exp((theta-gam)^2/2)*pnorm(gam-theta)
+  )
+cat('last volatility estimated from data',sqrt(sigma_h_sq),'\n')
+cat('one-step ahead forecast volatility',sqrt(sigma_h_1_sq),'\n')
+cat('two-step ahead forecast volatility',sqrt(sigma_h_2_sq),'\n')
