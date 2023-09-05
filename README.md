@@ -1,5 +1,5 @@
 # test
-## Derivative Pricing
+## Derivatives Pricing
   1. Black–Scholes–Merton Model
   2. Binomial Trees
   3. Binomial Trees Alternative Procedure
