@@ -1,5 +1,5 @@
 # Calculate implied hazard rate from market CDS spread
-# 
+# John C. Hull. Options, Futures, and Other Derivatives, Global Edition. 9th p.600
 rm(list=ls())
 f <- function(h)
 {
