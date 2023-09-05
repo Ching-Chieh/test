@@ -9,7 +9,8 @@
   7. Explicit Finite Difference Method (MATLAB, Python, C++)
   8. Control Variate Technique for European Call
   9. Calculate implied hazard rate from market CDS spread
-
+  10. VaR of a four-index portfolio
+  11. RiskMetrics lambda
 ## Time Series
   1. Simulate and Estimate GARCH(1,1) without using packages
   2. Simulate and Estimate EGARCH(1,1) without using packages
