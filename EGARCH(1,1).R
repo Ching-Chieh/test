@@ -1,7 +1,8 @@
+# Estimate EGARCH(1,1) without using packages.
+# Ruey S. Tsay. An Introduction to Analysis of Financial Data with R. p.218
+# Ruey S. Tsay. Analysis of Financial Time Series, 3th, p.144. Alternative Model Form
 cat("\014")
 rm(list=ls())
-# Ruey S. Tsay. An Introduction to Analysis of Financial Data with R. p.218
-# Ruey S. Tsay. Analysis of Financial Time Series, 3th, p.144. Alternative Model Form 
 rtn=log(read.table("m-ibmsp6709.txt",header=T)$ibm+1)
 loglik <- function(par) {
   glk=0
