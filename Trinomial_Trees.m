@@ -1,6 +1,6 @@
 function Trinomial_Value = Trinomial_Trees(S0,K,r,q,sigma,T,OptionType,ExerciseType,NT)
 % Trinomial_Trees
-% 
+% John C. Hull. Options, Futures, and Other Derivatives, Global Edition. 9th p.489
 dt=T/NT;
 u=exp(sigma*sqrt(3*dt));
 d=1/u;
