@@ -1,20 +1,43 @@
 * RATS program
+* normal distributed innovation **************************************************
 end(reset)
 OPEN DATA "C:\Users\Jimmy\Desktop\m-intcsp7309.txt"
 DATA(FORMAT=PRN,NOLABELS,ORG=COLUMNS,TOP=2,LEFT=2,RIGHT=2) 1 444 INTC
-
+*
 set rt = log(1+intc)
 linreg(noprint) rt
 # constant
 set h = %seesq
-com mu = %mean, a0=%seesq, a1=0.1, b1=0.1
 nonlin mu a0 a1 b1
+com mu = %mean, a0=%seesq, a1=0.1, b1=0.1
 frml at      = rt-mu
 frml gvar    = a0+a1*at{1}^2+b1*h{1}
 frml garchln = h=gvar,-0.5*log(h)-0.5*at^2/h
 maximize(method=bhhh) garchln 2 *
-
-* forecast *************************************************************
+*
+* Student-t innovation **********************************************************
+end(reset)
+OPEN DATA "C:\Users\Jimmy\Desktop\m-intcsp7309.txt"
+DATA(FORMAT=PRN,NOLABELS,ORG=COLUMNS,TOP=2,LEFT=2,RIGHT=2) 1 444 INTC
+set rt = log(1+intc)
+linreg(noprint) rt
+# constant
+set h = %seesq
+nonlin mu a0 a1 b1 v
+com mu = %mean, a0=%seesq, a1=0.1, b1=0.1, v=4
+frml at      = rt-mu
+frml gvar    = a0+a1*at{1}^2+b1*h{1}
+frml garchln = $
+               h=gvar, $
+               %LNGAMMA((v+1)/2.)-%LNGAMMA(v/2.)-0.5*log(v-2.) - $
+               ((v+1)/2.)*log(1.0+at^2/((v-2.0)*h)) - 0.5*log(h)
+maximize(method=bhhh) garchln 2 *
+*
+* forecast ***********************************************************************
+end(reset)
+OPEN DATA "C:\Users\Jimmy\Desktop\m-intcsp7309.txt"
+DATA(FORMAT=PRN,NOLABELS,ORG=COLUMNS,TOP=2,LEFT=2,RIGHT=2) 1 444 INTC
+set rt = log(1+intc)
 garch(p=1,q=1,hseries=ht,resids=at) / rt
 set uu = at^2
 com vc=%beta(2),vb=%beta(4),va=%beta(3)
