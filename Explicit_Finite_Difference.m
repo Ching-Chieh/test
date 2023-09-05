@@ -1,6 +1,6 @@
 function value = Explicit_Finite_Difference(S,S_max,K,r,q,sigma,T,OptionType,ExerciseType,N,M)
 % Explicit Finite Difference Method.
-% 
+% John C. Hull. Options, Futures, and Other Derivatives, Global Edition. 9th p.504
 dS = S_max/M;
 dt = T/N;
 f = zeros(N+1,M+1);
