@@ -1,0 +1,17 @@
+* RATS program
+end(reset)
+OPEN DATA "C:\Users\Jimmy\Desktop\m-ibmvwew2697.txt"
+CALENDAR(M) 1926:1
+DATA(FORMAT=PRN,NOLABELS,ORG=COLUMNS,TOP=2,LEFT=2,RIGHT=2) 1926:01 1997:12 rt
+linreg(noprint) rt
+# constant rt{1}
+set logh = log(%seesq)
+nonlin c0 ar1 theta gamma a0 a1
+frml at      = rt-c0-ar1*rt{1}
+frml epsi    = at/sqrt(exp(logh))
+frml g       = theta*epsi + gamma*(abs(epsi)-sqrt(2./%pi))
+frml logvar  = a0*(1-a1) + a1*logh{1} + g{1}
+frml garchln = logh=logvar, -0.5*logh-0.5*epsi^2
+compute c0 = 0.01, ar1 = 0.1, theta = -0.08, gamma = 0.3
+compute a0 = -5.0, a1 = 0.8
+maximize(method=bhhh) garchln 3 *
