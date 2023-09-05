@@ -13,7 +13,8 @@
 ## Time Series
   1. Simulate and Estimate GARCH(1,1) without using packages
   2. Simulate and Estimate EGARCH(1,1) without using packages
-  3. Multivariate Volatility Models
+  3. Conditional Heteroscedastic ARMA (CHARMA) Model
+  4. Multivariate Volatility Models
      * EWMA
      * DVEC
      * BEKK
@@ -21,5 +22,5 @@
      * Time-Varying Correlation Models
      * Time-Varying Correlation Models (Cholesky Reparameterization)
      * Dynamic Conditional Correlation Models
-  4. Asymptotic Principal Component Analysis
+  5. Asymptotic Principal Component Analysis
      
