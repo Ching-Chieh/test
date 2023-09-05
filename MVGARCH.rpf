@@ -1,3 +1,12 @@
+# This scipt estimates the following models:
+#  EWMA
+#  DVEC
+#  BEKK
+#  Diagonal Constant-Correlation Model
+#  Time-Varying Correlation Model
+#  Time-Varying Correlation Model - Cholesky Decomposition
+#  Dynamic Correlation (DCC) Model
+
 # Use R to download sp500 and TSLA ********************************************************
 cat("\014")
 rm(list=ls())
@@ -87,6 +96,97 @@ set std_tsla_sq = std_tsla^2
 @mvqstat(lags=12)
 # std_sp500_sq std_tsla_sq
 
+* Time-Varying Correlation Model **************************************************************************************
+* Moving window correlations
+do time=1,1426
+   cmom(corr) time-100 time
+   # tsla sp500
+   set movingcorr time time = %cmom(1,2)
+end do time
+graph(footer="Moving Window Sample Correlation")
+# movingcorr
+
+linreg tsla
+# constant tsla{1 2} sp500{1 2}
+
+compute n=2
+dec vect[series] u(n)
+dec vect[frml] resid(n)
+dec vect[frml] hd(n)
+dec frml[symm] hf
+dec series[symm] uu h
+dec symm hx(n,n) uux(n,n)
+dec vect ux(n)
+*
+nonlin(parmset=meanparms) p10 p11 p12 p20
+nonlin(parmset=garchparms) c1 c2 a11 a21 a22 b11 b12 b21 b22 q0 q1 q2
+*
+frml resid(1) = tsla-p10-p11*tsla{1}-p12*sp500{2}
+frml resid(2) = sp500-p20
+nlsystem(parmset=meanparms,resids=u) / resid
+gset uu   = %sigma
+gset h    = %sigma
+set rhotv = .7
+*
+frml hd(1) = c1+a11*uu{1}(1,1)+b11*h{1}(1,1)+b12*h{1}(2,2)
+frml hd(2) = c2+a21*uu{1}(1,1)+a22*uu{1}(2,2)+b21*h{1}(1,1)+b22*h{1}(2,2)
+frml qf    = q0+q1*rhotv{1}+q2*u(1){1}*u(2){1}/sqrt(h{1}(1,1)*h{1}(2,2))
+frml hf    = hx(1,1)=hd(1),hx(2,2)=hd(2),rhotv=%logistic(qf,1.0),hx(1,2)=rhotv*sqrt(hx(1,1)*hx(2,2)),hx
+frml logl = $
+    hx = hf(t) , $
+    %do(i,1,n,u(i)=resid(i)) , $
+    ux = %xt(u,t), $
+    h(t)=hx, uu(t)=%outerxx(ux), $
+    %logdensity(hx,ux)
+compute c1=a11=b11=b12=0.1
+compute c2=a21=a22=b21=b22=0.2
+compute q0=q1=q2=0.5
+*
+maximize(parmset=meanparms+garchparms,pmethod=simplex,piters=20,method=bfgs,iters=200) logl 7 *
+set tsla_std = resid(1)/sqrt(h(t)(1,1))
+set sp500_std  = resid(2)/sqrt(h(t)(2,2))
+*
+@MVQStat(lags=4,dfc=2)
+# tsla_std sp500_std
+@MVQStat(lags=8,dfc=2)
+# tsla_std sp500_std
+*
+set tsla_std_sq = tsla_std^2
+set sp500_std_sq  = sp500_std^2
+@MVQStat(lags=4,dfc=7)
+# tsla_std_sq sp500_std_sq
+@MVQStat(lags=8,dfc=7)
+# tsla_std_sq sp500_std_sq
+
+* Time-Varying Correlation Model - Cholesky Decomposition *************************************************************
+nonlin(parmset=meanparms) p10 p20 p11 p12
+frml a1f = tsla - p10 - p11*tsla{1} - p12*sp500{2}
+frml a2f = sp500 - p20
+
+com p10=1.0, p11= 0.08, p12= 0.08
+com p20=0.6
+nlsystem(parmset=meanparms) / a1f a2f
+set a1t = a1f
+set a2t = a2f
+set b2t = 0.0
+
+com cholesky = %decomp(%sigma)
+set g11t = cholesky(1,1)^2
+set g22t = cholesky(2,2)^2
+set q21t = cholesky(2,1)/cholesky(1,1)
+
+nonlin(parmset=garchparms) a0 a1 a2 q0 q1 q2 b0 b1 b2 b3 b4
+frml g11f = a0+a1*a1t{1}^2+a2*g11t{1}
+frml q21f = q0+q1*q21t{1}+q2*a2t{1}
+frml b2f  = a2t-q21t*a1t
+frml g22f = b0 + b1*a1t{1}^2 + b2*b2t{1}^2 + b3*g11t{1} + b4*g22t{1}
+frml garchln a1t=a1f,a2t=a2f,g11t=g11f,q21t=q21f,b2t=b2f,g22t=g22f, $
+   %logdensity(g11t,a1t)+%logdensity(g22t,b2t)
+compute a0=a1=a2=0.8
+compute q0=q1=q2=0.5
+compute b0=b1=b2=b3=b4=0.3
+maximize(parmset=meanparms+garchparms,pmethod=simplex,piters=20,method=bfgs,iters=200) garchln 5 *
+
 * Dynamic Correlation (DCC) Model **************************************************************************************
 garch(p=1,q=1,mv=bekk,hmatrices=hh,rvector=rr,piters=10,pmeth=simplex,iters=200) / sp500 tsla
 set std_sp500 = rr(t)(1)/sqrt(hh(t)(1,1))
@@ -102,6 +202,3 @@ set std_tsla_sq = std_tsla^2
 # std_sp500 std_tsla
 @mvqstat(lags=12)
 # std_sp500_sq std_tsla_sq
-
-
-* Estimate Time-Varying Correlation Model
