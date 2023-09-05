@@ -26,3 +26,9 @@
   5. Asymptotic Principal Component Analysis
   6. Time-Varying Correlation (simple ver.)
   7. Time-Varying Beta
+  8. Smooth Transition AR (STAR) Model
+  9. Threshold Autoregressive (TAR) Model
+  10. Markov Switching Model
+  11. Cointegrated VAR Model
+  12. Multivariate Threshold Model
+  13. Statistical Arbitrage Pairs Trading (Cointegration)
