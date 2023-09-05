@@ -1,5 +1,6 @@
 # R program
-# For small T and large quantity of assets
+# For small T and a large quantity of assets
+# This example 40 assets and T=36
 cat("\014")
 rm(list=ls())
 library(tidyverse)
