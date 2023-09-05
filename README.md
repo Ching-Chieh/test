@@ -10,7 +10,7 @@
   8. Control Variate Technique for European Call
 
 ## Time Series
-  1. Simulate GARCH(1,1)
+  1. Simulate and Estimate GARCH(1,1)
   2. Simulate and Estimate EGARCH(1,1)
   3. 
      
