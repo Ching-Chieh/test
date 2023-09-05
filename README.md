@@ -36,4 +36,5 @@
   1. Estimation of Organizational Capital
   2. Estimation of Discretionary Accruals (Modified Jones Model and Leave-One-Out Regression)
   3. Calculation of Crash Risk Measures
-  4. 
+## Others
+   * Prediction of TSMC Price (undergraduate ML course project)
