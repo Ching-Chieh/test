@@ -1,0 +1,107 @@
+# Use R to download sp500 and TSLA ********************************************************
+cat("\014")
+rm(list=ls())
+library(tidyverse)
+library(lubridate)
+quantmod::getSymbols(c('^GSPC','TSLA'), from = '2018-01-01')
+sp500 <- GSPC %>%
+  as_tibble(rownames = 'date') %>% 
+  mutate(date=ymd(date)) %>% 
+  select(date, sp500.close = GSPC.Close)
+tsla <- TSLA %>% 
+  as_tibble(rownames = 'date') %>% 
+  mutate(date=ymd(date)) %>% 
+  select(date, tsla.close = TSLA.Close)
+sp500 %>% 
+  left_join(tsla, by = 'date') %>% 
+  drop_na() %>% 
+  mutate(sp500=log(sp500.close/lag(sp500.close)),
+         tsla=log(tsla.close/lag(tsla.close))) %>% 
+  drop_na() %>% 
+  select(date,sp500,tsla) %>% 
+  write_csv('d-sp500tsla1823.csv')
+
+* RATS program *************************************************************************************************************************
+end(reset)
+OPEN DATA "C:\Users\Jimmy\Desktop\d-sp500tsla1823.csv"
+DATA(FORMAT=PRN,NOLABELS,ORG=COLUMNS,TOP=2,LEFT=2) 1 1426 sp500 tsla
+* Exponentially Weighted Moving Average (EWMA) ****************************************************************
+garch(p=1,q=1,mv=ewma,hmatrices=hh,rvector=rr) / sp500 tsla
+set std_sp500 = rr(t)(1)/sqrt(hh(t)(1,1))
+set std_tsla = rr(t)(2)/sqrt(hh(t)(2,2))
+@regcorrs(number=12,report) std_sp500
+@regcorrs(number=12,report) std_tsla
+set std_sp500_sq = std_sp500^2
+set std_tsla_sq = std_tsla^2
+@regcorrs(number=12,report) std_sp500_sq
+@regcorrs(number=12,report) std_tsla_sq
+@mvqstat(lags=12)
+# std_sp500 std_tsla
+@mvqstat(lags=12)
+# std_sp500_sq std_tsla_sq
+
+* Diagonal Vectorization (VEC) Model ***************************************************************************
+garch(p=1,q=1,hmatrices=hh,rvector=rr,pmethod=simplex,piters=10,method=bhhh) / sp500 tsla
+set std_sp500 = rr(t)(1)/sqrt(hh(t)(1,1))
+set std_tsla = rr(t)(2)/sqrt(hh(t)(2,2))
+set rho  = hh(t)(1,2)/(sqrt(hh(t)(1,1))*sqrt(hh(t)(2,2)))
+@regcorrs(number=12,report) std_sp500
+@regcorrs(number=12,report) std_tsla
+set std_sp500_sq = std_sp500^2
+set std_tsla_sq = std_tsla^2
+@regcorrs(number=12,report) std_sp500_sq
+@regcorrs(number=12,report) std_tsla_sq
+@mvqstat(lags=12)
+# std_sp500 std_tsla
+@mvqstat(lags=12)
+# std_sp500_sq std_tsla_sq
+
+* BEKK Model ******************************************************************************************************
+garch(p=1,q=1,mv=bekk,hmatrices=hh,rvector=rr,piters=10,pmeth=simplex,iters=200) / sp500 tsla
+set std_sp500 = rr(t)(1)/sqrt(hh(t)(1,1))
+set std_tsla = rr(t)(2)/sqrt(hh(t)(2,2))
+set rho  = hh(t)(1,2)/(sqrt(hh(t)(1,1))*sqrt(hh(t)(2,2)))
+@regcorrs(number=12,report) std_sp500
+@regcorrs(number=12,report) std_tsla
+set std_sp500_sq = std_sp500^2
+set std_tsla_sq = std_tsla^2
+@regcorrs(number=12,report) std_sp500_sq
+@regcorrs(number=12,report) std_tsla_sq
+@mvqstat(lags=12)
+# std_sp500 std_tsla
+@mvqstat(lags=12)
+# std_sp500_sq std_tsla_sq
+
+* Diagonal Constant-Correlation Model
+garch(p=1,q=1,mv=cc,hmatrices=hh,rvector=rr) / sp500 tsla
+set std_sp500 = rr(t)(1)/sqrt(hh(t)(1,1))
+set std_tsla = rr(t)(2)/sqrt(hh(t)(2,2))
+@mvqstat(lags=4)
+# std_sp500 std_tsla
+@mvqstat(lags=12)
+# std_sp500 std_tsla
+set std_sp500_sq = std_sp500^2
+set std_tsla_sq = std_tsla^2
+@mvqstat(lags=4)
+# std_sp500_sq std_tsla_sq
+@mvqstat(lags=12)
+# std_sp500_sq std_tsla_sq
+
+* Dynamic Correlation (DCC) Model **************************************************************************************
+garch(p=1,q=1,mv=bekk,hmatrices=hh,rvector=rr,piters=10,pmeth=simplex,iters=200) / sp500 tsla
+set std_sp500 = rr(t)(1)/sqrt(hh(t)(1,1))
+set std_tsla = rr(t)(2)/sqrt(hh(t)(2,2))
+set rho  = hh(t)(1,2)/(sqrt(hh(t)(1,1))*sqrt(hh(t)(2,2)))
+@regcorrs(number=12,report) std_sp500
+@regcorrs(number=12,report) std_tsla
+set std_sp500_sq = std_sp500^2
+set std_tsla_sq = std_tsla^2
+@regcorrs(number=12,report) std_sp500_sq
+@regcorrs(number=12,report) std_tsla_sq
+@mvqstat(lags=12)
+# std_sp500 std_tsla
+@mvqstat(lags=12)
+# std_sp500_sq std_tsla_sq
+
+
+* Estimate Time-Varying Correlation Model
