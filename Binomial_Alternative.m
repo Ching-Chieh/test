@@ -1,4 +1,4 @@
-function Binomial_Value = Binomial_alternative(S0,K,r,q,sigma,T,OptionType,ExerciseType,NT)
+function Binomial_Value = Binomial_Alternative(S0,K,r,q,sigma,T,OptionType,ExerciseType,NT)
 % Binomial Trees. Alternative procedures.
 % John C. Hull. Options, Futures, and Other Derivatives, Global Edition. 9th p.487
 dt=T/NT;
