@@ -32,3 +32,8 @@
   11. Cointegrated VAR Model
   12. Multivariate Threshold Model
   13. Statistical Arbitrage Pairs Trading (Cointegration)
+## Corportate Finance
+  1. Estimation of Organizational Capital
+  2. Estimation of Discretionary Accruals (Modified Jones Model and Leave-One-Out Regression)
+  3. Calculation of Crash Risk Measures
+  4. 
