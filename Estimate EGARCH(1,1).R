@@ -9,9 +9,6 @@ da=read.table('m-ibmvwew2697.txt',header = T, na.strings = '.') %>%
   as_tibble() %>% 
   mutate(date=ymd(date)) %>% 
   filter(!is.na(ibm))
-head(da)
-tail(da)
-nrow(da)
 rtn=da$ibm
 loglik <- function(para) {
   glk=0
