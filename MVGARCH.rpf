@@ -5,7 +5,7 @@
 #  Diagonal Constant-Correlation Model
 #  Time-Varying Correlation Model
 #  Time-Varying Correlation Model - Cholesky Decomposition
-#  Dynamic Correlation (DCC) Model
+#  Dynamic Conditional Correlation (DCC) Model
 
 # Use R to download sp500 and TSLA ********************************************************
 cat("\014")
