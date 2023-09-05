@@ -1,5 +1,5 @@
 * RATS program
-* normal distributed innovation **************************************************
+* Normal distributed innovation **************************************************
 end(reset)
 OPEN DATA "C:\Users\Jimmy\Desktop\m-intcsp7309.txt"
 DATA(FORMAT=PRN,NOLABELS,ORG=COLUMNS,TOP=2,LEFT=2,RIGHT=2) 1 444 INTC
