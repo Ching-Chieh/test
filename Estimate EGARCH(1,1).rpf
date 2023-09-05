@@ -1,3 +1,4 @@
+
 * Use R handle missing values first
 *cat("\014")
 *rm(list=ls())
@@ -7,13 +8,13 @@
 *  as_tibble() %>% 
 *  mutate(date=ymd(date)) %>% 
 *  filter(!is.na(ibm)) %>% 
-*  select(ibm) %>% write_csv(da,'m-ibm2697.csv')
+*  select(ibm) %>% write_csv('m-ibm2697.csv')
 
 * RATS program
 * Estimate *****************************************************************************************
 end(reset)
 OPEN DATA "C:\Users\Jimmy\Desktop\m-ibm2697.csv"
-DATA(FORMAT=PRN,NOLABELS,ORG=COLUMNS,TOP=2) 1 862 RT
+DATA(FORMAT=PRN,NOLABELS,ORG=COLUMNS,TOP=2) 1 862 rt
 linreg(noprint) rt
 # constant rt{1}
 set logh = log(%seesq)
@@ -27,4 +28,30 @@ compute c0 = 0.01, ar1 = 0.1, theta = -0.08, gamma = 0.3
 compute a0 = -5.0, a1 = 0.8
 maximize(method=bhhh) garchln 3 *
 
-* Forecast *****************************************************************************************
+* Forecast out-of-sample variance *****************************************************************************************
+* Need bootstrapping
+garch(p=1,q=1,exp,asymmetric,hseries=h) / rt
+compute c=%beta(2),a=%beta(3),b=%beta(4),d=%beta(5)
+compute gstart=%regstart(),gend=%regend()
+set stdu = %resids/sqrt(h)
+compute ndraws=10000
+compute nsteps=50
+compute bstart=gend+1,bend=gend+nsteps
+set h bstart bend = %na
+dec series[vect] hdraws
+gset hdraws bstart bend = %zeros(ndraws,1)
+do draw=1,ndraws
+   boot entries bstart bend gstart gend
+   set stdu bstart bend = h=exp(c+b*log(h{1})+a*abs(stdu{1})+d*%max(stdu{1},0.0)),stdu(entries(t))
+   do t=bstart,bend
+      compute hdraws(t)(draw)=h(t)
+   end do t
+end do draw
+set lower bstart bend  = %fractiles(hdraws(t),||.05||)(1)
+set upper bstart bend  = %fractiles(hdraws(t),||.95||)(1)
+set median bstart bend = %fractiles(hdraws(t),||.50||)(1)
+graph(header="Bootstrapped Forecasts for out-of-sample variance") 4
+# h      762 862
+# median 862 862+nsteps-1
+# lower  862 862+nsteps-1 3
+# upper  862 862+nsteps-1 3
