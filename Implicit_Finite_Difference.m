@@ -1,6 +1,6 @@
 function value = Implicit_Finite_Difference(S,S_max,K,r,q,sigma,T,OptionType,ExerciseType,N,M)
 % Implicit Finite Difference Method
-% 
+% John C. Hull. Options, Futures, and Other Derivatives, Global Edition. 9th p.501
 dS = S_max/M;
 dt = T/N;
 f = zeros(N+1,M+1);
