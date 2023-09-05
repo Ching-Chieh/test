@@ -1,4 +1,4 @@
-* R handle missing values
+* Use R handle missing values first
 *cat("\014")
 *rm(list=ls())
 *library(tidyverse)
@@ -10,6 +10,7 @@
 *  select(ibm) %>% write_csv(da,'m-ibm2697.csv')
 
 * RATS program
+* Estimate *****************************************************************************************
 end(reset)
 OPEN DATA "C:\Users\Jimmy\Desktop\m-ibm2697.csv"
 DATA(FORMAT=PRN,NOLABELS,ORG=COLUMNS,TOP=2) 1 862 RT
@@ -25,3 +26,5 @@ frml garchln = logh=logvar, -0.5*logh-0.5*epsi^2
 compute c0 = 0.01, ar1 = 0.1, theta = -0.08, gamma = 0.3
 compute a0 = -5.0, a1 = 0.8
 maximize(method=bhhh) garchln 3 *
+
+* Forecast *****************************************************************************************
