@@ -168,18 +168,3 @@ compute a0 = 3.7, a1 = 0.11, a2 = 0.8
 compute q0 = 0.003, q1 = 1.0, q2 = -0.004 
 compute b0 = 1.02, b1 = 0.02, b2 = 0.05, b3 = -0.04, b4 = 0.9
 maximize(pmethod=simplex,piters=20,iters=200) logl 5 *
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
