@@ -119,3 +119,5 @@ frml logl = $
  	    %logdensity(hx,ux)
 compute vcv=%xdiag(rr), vav=%const(0.03), vbv=%const(0.8), qc=%const(0.4)
 maximize(parmset=meanparms+garchparms,pmethod=simplex,piters=10,iters=200) logl 2 *
+* Compare
+garch(p=1,q=1,mv=cc) / sp500 csco intc
