@@ -180,12 +180,12 @@ frml g11f = a0+a1*a1t{1}^2+a2*g11t{1}
 frml q21f = q0+q1*q21t{1}+q2*a2t{1}
 frml b2f  = a2t-q21t*a1t
 frml g22f = b0 + b1*a1t{1}^2 + b2*b2t{1}^2 + b3*g11t{1} + b4*g22t{1}
-frml garchln a1t=a1f,a2t=a2f,g11t=g11f,q21t=q21f,b2t=b2f,g22t=g22f, $
+frml logl = a1t=a1f,a2t=a2f,g11t=g11f,q21t=q21f,b2t=b2f,g22t=g22f, $
    %logdensity(g11t,a1t)+%logdensity(g22t,b2t)
 compute a0=a1=a2=0.8
 compute q0=q1=q2=0.5
 compute b0=b1=b2=b3=b4=0.3
-maximize(parmset=meanparms+garchparms,pmethod=simplex,piters=20,method=bfgs,iters=200) garchln 5 *
+maximize(parmset=meanparms+garchparms,pmethod=simplex,piters=20,iters=200) logl 5 *
 
 * Dynamic Correlation (DCC) Model **************************************************************************************
 garch(p=1,q=1,mv=bekk,hmatrices=hh,rvector=rr,piters=10,pmeth=simplex,iters=200) / sp500 tsla
