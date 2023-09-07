@@ -1,0 +1,185 @@
+* Ruey S. Tsay Analysis of Financial Time Series, 3th
+* p.527 Method 1 ---------------------------------------------------------------------------------------------------------
+end(reset)
+OPEN DATA "C:\Users\Jimmy\Desktop\m-ibmspln.dat"
+DATA(FORMAT=PRN,NOLABELS,ORG=COLUMNS,TOP=2) 1 888 ibm sp500
+*
+stats(noprint) ibm
+set h1 = %variance
+stats(noprint) sp500
+set h2 = %variance
+set a1 = 0.0
+set a2 = 0.0
+set rho = .6
+nonlin p10 p11 p12 p20 c1 c2 a11 a21 a22 b11 b12 b21 b22 q0 q1 q2
+frml a1f  = ibm-p10-p11*ibm{1}-p12*sp500{2}
+frml a2f  = sp500-p20
+frml h1f  = c1 + a11*a1{1}^2               + b11*h1{1} + b12*h2{1}
+frml h2f  = c2 + a21*a1{1}^2 + a22*a2{1}^2 + b21*h1{1} + b22*h2{1}
+frml qf   = q0 + q1*rho{1} + q2*a1{1}*a2{1}/sqrt(h1{1}*h2{1})
+frml rhof = exp(qf)/(1+exp(qf))
+frml logl = rho(t)=rhof(t), $
+			a1(t)=a1f(t), $
+			a2(t)=a2f(t), $
+			h1(t)=h1f(t), $
+			h2(t)=h2f(t), $
+			-0.5*(log(h1(t)*h2(t)*(1-rho(t)^2)) + $
+			1/(1-rho(t)^2)*(a1(t)^2/h1(t) + a2(t)^2/h2(t) -2*rho(t)*a1(t)*a2(t)/sqrt(h1(t)*h2(t))) $
+			)
+compute p10 = 1.318, p11 = 0.076, p12 = -0.068
+compute p20 = 0.673
+compute c1 = 2.8, c2 = 1.71
+compute a11 = 0.084, a21 = 0.037, a22 = 0.054
+compute b11 = 0.864, b12 = -0.02, b21 = -0.058, b22 = 0.914
+compute q0 = -2.024, q1 = 4.0, q2 = 0.088
+maximize(pmethod=simplex,piters=20,iters=200) logl 4 *
+
+* p.527 Method 2 ---------------------------------------------------------------------------------------------------------
+end(reset)
+OPEN DATA "C:\Users\Jimmy\Desktop\m-ibmspln.dat"
+DATA(FORMAT=PRN,NOLABELS,ORG=COLUMNS,TOP=2) 1 888 ibm sp500
+*
+compute n=2
+dec vect[series] u(n)
+dec vect[frml] resid(n)
+dec vect[frml] hd(n)
+dec frml[symm] hf
+dec series[symm] uu h
+dec symm hx(n,n)
+dec vect ux(n)
+nonlin(parmset=meanparms) p10 p11 p12 p20
+nonlin(parmset=garchparms) c1 c2 a11 a21 a22 b11 b12 b21 b22 q0 q1 q2
+frml resid(1) = ibm-p10-p11*ibm{1}-p12*sp500{2}
+frml resid(2) = sp500-p20
+nlsystem(parmset=meanparms,resids=u) / resid
+gset uu   = %sigma
+gset h    = %sigma
+set rhotv = .60
+frml hd(1) = c1+a11*uu{1}(1,1)+b11*h{1}(1,1)+b12*h{1}(2,2)
+frml hd(2) = c2+a21*uu{1}(1,1)+a22*uu{1}(2,2)+b21*h{1}(1,1)+b22*h{1}(2,2)
+frml qf    = q0+q1*rhotv{1}+q2*u(1){1}*u(2){1}/sqrt(h{1}(1,1)*h{1}(2,2))
+frml hf    = hx(1,1)=hd(1),hx(2,2)=hd(2),rhotv=%logistic(qf,1.0),hx(1,2)=rhotv*sqrt(hx(1,1)*hx(2,2)),hx
+frml logl  = $
+    hx = hf(t) , $
+    %do(i,1,n,u(i)=resid(i)) , $
+    ux = %xt(u,t), $
+    h(t)=hx, uu(t)=%outerxx(ux), $
+    %logdensity(hx,ux)
+compute p10 = 1.318, p11 = 0.076, p12 = -0.068
+compute p20 = 0.673
+compute c1 = 2.8, c2 = 1.71
+compute a11 = 0.084, a21 = 0.037, a22 = 0.054
+compute b11 = 0.864, b12 = -0.02, b21 = -0.058, b22 = 0.914
+compute q0 = -2.024, q1 = 4.0, q2 = 0.088
+maximize(parmset=meanparms+garchparms,pmethod=simplex,piters=20,iters=200) logl 7 *
+
+* p.528 Cholesky Method 1 -----------------------------------------------------------------------------------------------------
+end(reset)
+OPEN DATA "C:\Users\Jimmy\Desktop\m-ibmspln.dat"
+DATA(FORMAT=PRN,NOLABELS,ORG=COLUMNS,TOP=2) 1 888 ibm sp500
+*
+nonlin(parmset=meanparms) p10 p11 p12 p20
+frml a1f = ibm-p10-p11*ibm{1}-p12*sp500{2}
+frml a2f = sp500-p20
+compute p10 = 1.4, p11 = 0.08, p12 = -0.06, p20 = 0.6
+nlsystem(parmset=meanparms,noprint) / a1f a2f
+set a1t = a1f
+set a2t = a2f
+set b2t = 0.0
+*
+compute cholesky=%decomp(%sigma)
+set g11t = cholesky(1,1)^2
+set g22t = cholesky(2,2)^2
+set q21t = cholesky(2,1)/cholesky(1,1)
+*
+nonlin(parmset=garchparms) a0 a1 a2 b0 b1 b2 b3 b4 q0 q1 q2
+frml g11f = a0 + a1*a1t{1}^2 + a2*g11t{1}
+frml q21f = q0 + q1*q21t{1} + q2*a2t{1}
+frml b2f  = a2t - q21t*a1t
+frml g22f = b0 + b1*a1t{1}^2 + b2*b2t{1}^2 + b3*g11t{1} + b4*g22t{1}
+frml logl = $
+   a1t=a1f, g11t=g11f, $
+   q21t=q21f, $
+   b2t=b2f, g22t=g22f, %logdensity(g11t,a1t) + %logdensity(g22t,b2t)
+compute a0 = 3.7, a1 = 0.11, a2 = 0.8
+compute q0 = 0.003, q1 = 1.0, q2 = -0.004 
+compute b0 = 1.02, b1 = 0.02, b2 = 0.05, b3 = -0.04, b4 = 0.9
+maximize(parmset=meanparms+garchparms,pmethod=simplex,piters=20,iters=200) logl 5 *
+
+* p.528 Cholesky Method 2 -----------------------------------------------------------------------------------------------------
+end(reset)
+OPEN DATA "C:\Users\Jimmy\Desktop\m-ibmspln.dat"
+DATA(FORMAT=PRN,NOLABELS,ORG=COLUMNS,TOP=2) 1 888 ibm sp500
+*
+equation ibmeq ibm
+# constant ibm{1} sp500{2}
+equation speq sp500
+# constant
+group bimean ibmeq speq
+sur(model=bimean,novcv,noprint,resids=resid,coeffs=coef)
+set a1t = resid(1)
+set a2t = resid(2)
+set b2t = 0.0
+nonlin(parmset=meanparms) p10 p11 p12 p20
+compute p10 = coef(1,1), p11 = coef(2,1), p12 = coef(3,1), p20 = coef(1,2)
+frml a1f = ibm-p10-p11*ibm{1}-p12*sp500{2}
+frml a2f = sp500-p20
+*
+compute cholesky=%decomp(%sigma)
+set g11t = cholesky(1,1)^2
+set g22t = cholesky(2,2)^2
+set q21t = cholesky(2,1)/cholesky(1,1)
+*
+nonlin(parmset=garchparms) a0 a1 a2 b0 b1 b2 b3 b4 q0 q1 q2
+frml g11f = a0 + a1*a1t{1}^2 + a2*g11t{1}
+frml q21f = q0 + q1*q21t{1} + q2*a2t{1}
+frml b2f  = a2t - q21t*a1t
+frml g22f = b0 + b1*a1t{1}^2 + b2*b2t{1}^2 + b3*g11t{1} + b4*g22t{1}
+frml logl = $
+   a1t=a1f, g11t=g11f, $
+   q21t=q21f, $
+   b2t=b2f, g22t=g22f, %logdensity(g11t,a1t) + %logdensity(g22t,b2t)
+compute a0 = 3.7, a1 = 0.11, a2 = 0.8
+compute q0 = 0.003, q1 = 1.0, q2 = -0.004 
+compute b0 = 1.02, b1 = 0.02, b2 = 0.05, b3 = -0.04, b4 = 0.9
+maximize(parmset=meanparms+garchparms,pmethod=simplex,piters=20,iters=200) logl 5 *
+
+* p.528 Cholesky Method 3 -----------------------------------------------------------------------------------------------------
+end(reset)
+OPEN DATA "C:\Users\Jimmy\Desktop\m-ibmspln.dat"
+DATA(FORMAT=PRN,NOLABELS,ORG=COLUMNS,TOP=2) 1 888 ibm sp500
+*
+stats(noprint) ibm
+set g11t = %variance
+stats(noprint) sp500
+set g22t = %variance
+set q21t = 0.8
+*
+nonlin p10 p11 p12 p20 a0 a1 a2 b0 b1 b2 b3 b4 q0 q1 q2
+frml a1t = ibm-p10-p11*ibm{1}-p12*sp500{2}
+frml a2t = sp500-p20
+frml g11f = a0 + a1*a1t{1}^2 + a2*g11t{1}
+frml q21f = q0 + q1*q21t{1} + q2*a2t{1}
+frml b2t  = a2t - q21t*a1t
+frml g22f = b0 + b1*a1t{1}^2 + b2*b2t{1}^2 + b3*g11t{1} + b4*g22t{1}
+frml logl = g11t=g11f, q21t=q21f, g22t=g22f, -0.5*(log(g11t) + log(g22t) + a1t^2/g11t + b2t^2/g22t)
+compute p10 = 1.4, p11 = 0.08, p12 = -0.06, p20 = 0.6
+compute a0 = 3.7, a1 = 0.11, a2 = 0.8
+compute q0 = 0.003, q1 = 1.0, q2 = -0.004 
+compute b0 = 1.02, b1 = 0.02, b2 = 0.05, b3 = -0.04, b4 = 0.9
+maximize(pmethod=simplex,piters=20,iters=200) logl 5 *
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
