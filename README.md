@@ -18,14 +18,14 @@
   4. Multivariate Volatility Models
      * EWMA
      * DVEC
-     * BEKK
-     * Diagnoal Constant Correlation
+     * BEKK, Diagonal BEKK
+     * Diagnoal Constant Correlation (also directly estimate via ML estimation)
      * Time-Varying Correlation Models
      * Time-Varying Correlation Models (Cholesky Reparameterization)
      * Dynamic Conditional Correlation Models
   5. Asymptotic Principal Component Analysis
-  6. Time-Varying Correlation (simple ver.)
-  7. Time-Varying Beta
+  6. Time-Varying Correlation (Simple ver.)
+  7. Time-Varying CAPM (Simple ver. and State Space Modelling)
   8. Smooth Transition AR (STAR) Model
   9. Threshold Autoregressive (TAR) Model
   10. Markov Switching Model
