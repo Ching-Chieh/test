@@ -132,17 +132,17 @@ frml hd(1) = c1+a11*uu{1}(1,1)+b11*h{1}(1,1)+b12*h{1}(2,2)
 frml hd(2) = c2+a21*uu{1}(1,1)+a22*uu{1}(2,2)+b21*h{1}(1,1)+b22*h{1}(2,2)
 frml qf    = q0+q1*rhotv{1}+q2*u(1){1}*u(2){1}/sqrt(h{1}(1,1)*h{1}(2,2))
 frml hf    = hx(1,1)=hd(1),hx(2,2)=hd(2),rhotv=%logistic(qf,1.0),hx(1,2)=rhotv*sqrt(hx(1,1)*hx(2,2)),hx
-frml logl = $
-    hx = hf(t) , $
-    %do(i,1,n,u(i)=resid(i)) , $
-    ux = %xt(u,t), $
-    h(t)=hx, uu(t)=%outerxx(ux), $
-    %logdensity(hx,ux)
+frml logl  = $
+             hx = hf(t) , $
+             %do(i,1,n,u(i)=resid(i)) , $
+             ux = %xt(u,t), $
+             h(t)=hx, uu(t)=%outerxx(ux), $
+             %logdensity(hx,ux)
 compute c1=a11=b11=b12=0.1
 compute c2=a21=a22=b21=b22=0.2
 compute q0=q1=q2=0.5
 *
-maximize(parmset=meanparms+garchparms,pmethod=simplex,piters=20,method=bfgs,iters=200) logl 7 *
+maximize(parmset=meanparms+garchparms,pmethod=simplex,piters=20,iters=200) logl 7 *
 set tsla_std = resid(1)/sqrt(h(t)(1,1))
 set sp500_std  = resid(2)/sqrt(h(t)(2,2))
 *
@@ -181,7 +181,7 @@ frml q21f = q0+q1*q21t{1}+q2*a2t{1}
 frml b2f  = a2t-q21t*a1t
 frml g22f = b0 + b1*a1t{1}^2 + b2*b2t{1}^2 + b3*g11t{1} + b4*g22t{1}
 frml logl = a1t=a1f,a2t=a2f,g11t=g11f,q21t=q21f,b2t=b2f,g22t=g22f, $
-   %logdensity(g11t,a1t)+%logdensity(g22t,b2t)
+            %logdensity(g11t,a1t)+%logdensity(g22t,b2t)
 compute a0=a1=a2=0.8
 compute q0=q1=q2=0.5
 compute b0=b1=b2=b3=b4=0.3
