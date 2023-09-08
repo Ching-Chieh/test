@@ -26,15 +26,10 @@
   5. Asymptotic Principal Component Analysis
   6. Time-Varying Correlation (Simple ver.)
   7. Time-Varying CAPM (Simple ver. and State Space Modelling)
-  8. Smooth Transition AR (STAR) Model
-  9. Threshold Autoregressive (TAR) Model
-  10. Markov Switching Model
-  11. Cointegrated VAR Model
-  12. Multivariate Threshold Model
-  13. Statistical Arbitrage Pairs Trading (Cointegration)
+  8. Statistical Arbitrage Pairs Trading (Cointegration)
 ## Corportate Finance
-  1. Estimation of Organizational Capital
-  2. Estimation of Discretionary Accruals (Modified Jones Model and Leave-One-Out Regression)
-  3. Calculation of Crash Risk Measures
+  1. Calculation of Crash Risk Measures
+  2. Estimation of Organizational Capital
+  3. Estimation of Discretionary Accruals (Modified Jones Model and Leave-One-Out Regression)
 ## Others
    * Prediction of TSMC Price (undergraduate ML course project)
