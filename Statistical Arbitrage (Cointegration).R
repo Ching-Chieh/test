@@ -51,7 +51,9 @@ graph(vlabel="Spread") 4
 # up
 # low
 spgraph(done)
-* There are many arbitrage opportunities.
-* The mean of spread is 0.41340.
-* Buy a share of MSFT and short 1.02545 shares of AAPL when spread equals 0.25296 (0.41340 - 0.16043).
-* Unwind the position when spread equals 0.57383 (0.41340 + 0.16043).
+* There are some arbitrage opportunities.
+* The mean of the spread is 0.41340.
+* The standard error of the spread is 0.16043.
+* Trading strategy
+*  Buy a share of MSFT and short 1.02545 shares of AAPL when spread equals 0.25296 (0.41340 - 0.16043).
+*  Unwind the position when spread equals 0.57383 (0.41340 + 0.16043).
