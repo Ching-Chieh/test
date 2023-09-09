@@ -200,7 +200,8 @@ print('nlminb: ')
 nlminb_init_values %>% round(3)
 print('Nelder-Mead: ')
 mm$par %>% round(3)
-(standard_error = sqrt(diag(solve(mm$hessian)))) %>% round(3)
+standard_error = sqrt(diag(solve(mm$hessian)))
+standard_error %>% round(3)
 # RATS program --------------------------------------------------------------------------------------------------------------
 end(reset)
 OPEN DATA "C:\Users\Jimmy\Desktop\m-3m4608.txt"
