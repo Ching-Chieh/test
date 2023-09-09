@@ -94,6 +94,10 @@ for (i in 1L:npar) {
     Hessian[i, j] = (star(x1)-star(x2)-star(x3)+star(x4))/(4*epsilon[i]*epsilon[j])
   }
 }
+# optimHess is similar.
+hess=stats::optimHess(param, star)
+Hessian
+hess
 # print coeftable
 cat("Maximized log-likehood: ",-star(param),"\n")
 names(param)=c('mu','c','a1','a2','sc','sa1')
