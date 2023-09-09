@@ -75,8 +75,8 @@ da=mutate(da,spread = msft - gam*aapl)
 upp=mu+sig
 lowe=mu-sig
 cat('Buy a share of MSFT and short ',round(gam,4),' shares of AAPL\n',
-    'when spread equals ',round(upp,4),'\n',
-    'Unwind the position when spread equals ',round(lowe,4),'\n',sep = "")
+    'when spread equals ',round(lowe,4),'\n',
+    'Unwind the position when spread equals ',round(upp,4),'\n',sep = "")
 cat('The mean of the spread is',round(mu,4),'\n')
 ggplot(da,aes(date,spread)) + 
   geom_hline(yintercept = upp,color='red') +
