@@ -2,10 +2,18 @@
 # Ruey S. Tsay, Analysis of Financial Time Series, 3th, p.185
 # This script includes:
 #  1. nlminb
+#     No need too much carefulness in log likelihood function.
+#     Can't get Hessian matrix and thus can't get standard errors.
+#     The result is the same with the text.
 #  2. optim L-BFGS-B
-#  3. Nelder-Mead with nlminb Start Values
-#  4. RATS program
-# nlminb (Same with the text) -----------------------------------------------------------------------
+#     Need some carefulness in log likelihood function.
+#     Negative variance results in NA of log likelihood function and stops optimization.
+#     The result is a little different from the text.
+#  3. optim Nelder-Mead with nlminb Start Values
+#     Can get Hessian matrix and thus can get standard errors.
+#     The result is the same with the text.
+#  4. RATS program (much simpler)
+# nlminb ---------------------------------------------------------------------------------------------------
 # nlminb: BFGS Trust Region Quasi Newton Method
 cat("\014")
 rm(list=ls())
@@ -48,7 +56,7 @@ mm=nlminb(start = par,
           upper = c( 10*abs(mu),100*abs(mu),1-S,1-S, 5, 5))
 mm$convergence
 mm$par %>% round(3)
-# optim L-BFGS-B (different from the text) ------------------------------------------------------------
+# optim L-BFGS-B ----------------------------------------------------------------------------
 cat("\014")
 rm(list=ls())
 library(magrittr)
@@ -99,7 +107,7 @@ mm=optim(par,
          hessian = T)
 mm$convergence
 mm$par %>% round(3)
-# Nelder-Mead with nlminb Start Values (Same with nlminb and can get Hessian matrix) -----------------------------------------------------------------------
+# Nelder-Mead with nlminb Start Values -------------------------------------------------------------------------------
 # Step 1: Use nlminb to get start values
 cat("\014")
 rm(list=ls())
@@ -193,7 +201,7 @@ nlminb_init_values %>% round(3)
 print('Nelder-Mead: ')
 mm$par %>% round(3)
 (standard_error = sqrt(diag(solve(mm$hessian)))) %>% round(3)
-# RATS (much simpler) -------------------------------------------------------------------------
+# RATS program --------------------------------------------------------------------------------------------------------------
 end(reset)
 OPEN DATA "C:\Users\Jimmy\Desktop\m-3m4608.txt"
 DATA(FORMAT=PRN,NOLABELS,ORG=COLUMNS,TOP=2,LEFT=2) 1 755 RTN
