@@ -62,7 +62,7 @@ sp500 %>%
   drop_na() %>% 
   select(date,sp500,aapl) %>% 
   write_csv('d-sp500aapl1023.csv')
-# RATS program - State Space Modelling ------------------------------------------------------------------
+# RATS program  ---------------------------------------------------------------------------------------------
 end(reset)
 OPEN DATA "C:\Users\Jimmy\Desktop\d-sp500aapl1023.csv"
 DATA(FORMAT=PRN,NOLABELS,ORG=COLUMNS,TOP=2,LEFT=2) 1 3442 sp aapl
