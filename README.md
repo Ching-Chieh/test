@@ -24,7 +24,7 @@
      * Time-Varying Correlation Models (Cholesky Reparameterization)
      * Dynamic Conditional Correlation Models
   5. Asymptotic Principal Component Analysis
-  6. Smooth Transition AR (STAR) Model with various optimization methods
+  6. Smooth Transition AR (STAR) Model using various optimization methods in detail.
   7. Time-Varying Correlation (Simple ver.)
   8. Time-Varying CAPM (Simple ver. and State Space Modelling)
   9. Statistical Arbitrage Pairs Trading (Cointegration)
