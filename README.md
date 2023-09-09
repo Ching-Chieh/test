@@ -24,9 +24,10 @@
      * Time-Varying Correlation Models (Cholesky Reparameterization)
      * Dynamic Conditional Correlation Models
   5. Asymptotic Principal Component Analysis
-  6. Time-Varying Correlation (Simple ver.)
-  7. Time-Varying CAPM (Simple ver. and State Space Modelling)
-  8. Statistical Arbitrage Pairs Trading (Cointegration)
+  6. Smooth Transition AR (STAR) Model with various optimization methods
+  7. Time-Varying Correlation (Simple ver.)
+  8. Time-Varying CAPM (Simple ver. and State Space Modelling)
+  9. Statistical Arbitrage Pairs Trading (Cointegration)
 ## Corportate Finance
   1. Calculation of Crash Risk Measures
   2. Estimation of Organizational Capital
