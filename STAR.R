@@ -57,7 +57,7 @@ star <- function(par){
   cnt <<- cnt + 1
   f = 0
   ht_negative = FALSE
-  for (t in 3:N){
+  for (t in as.integer(3:N)){
     resi = rtn[t]-par[1]
     at=c(at,resi)
     sig=par[2]+par[3]*at[t-1]^2+par[4]*at[t-2]^2
