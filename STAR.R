@@ -1,5 +1,10 @@
 # Smooth Transition AR (STAR) Model
 # Ruey S. Tsay, Analysis of Financial Time Series, 3th, p.185
+# This script includes:
+#  1. nlminb
+#  2. optim L-BFGS-B
+#  3. Nelder-Mead with nlminb Start Values
+#  4. RATS program
 # nlminb (Same with the text) -----------------------------------------------------------------------
 # nlminb: BFGS Trust Region Quasi Newton Method
 cat("\014")
@@ -188,3 +193,21 @@ nlminb_init_values %>% round(3)
 print('Nelder-Mead: ')
 mm$par %>% round(3)
 (standard_error = sqrt(diag(solve(mm$hessian)))) %>% round(3)
+# RATS (much simpler) -------------------------------------------------------------------------
+end(reset)
+OPEN DATA "C:\Users\Jimmy\Desktop\m-3m4608.txt"
+DATA(FORMAT=PRN,NOLABELS,ORG=COLUMNS,TOP=2,LEFT=2) 1 755 RTN
+*
+nonlin(parm=meanparms) mu
+nonlin(parm=garchparms) c a1 a2
+nonlin(parm=starparms) sc sa1
+linreg(noprint) rtn / u
+# constant
+set uu = %seesq
+set h  = %seesq
+compute mu=%beta(1),c=%seesq,a1=a2=.01,sc=0.0,sa1=0.0
+*
+frml resid = rtn-mu
+frml hf    = (c+a1*uu{1}+a2*uu{2})+(sc+sa1*uu{1})/(1+exp(-1000*u{1}))
+frml logl  = (u=resid),(uu=u^2),(h=hf),%logdensity(h,u)
+maximize(parmset=meanparms+garchparms+starparms) logl 3 *
