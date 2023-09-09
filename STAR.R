@@ -156,8 +156,8 @@ mm=optim(par,
          hessian = T)
 mm$convergence
 mm$par %>% round(3)
-standard_error = sqrt(diag(solve(mm$hessian)))
 param=mm$par
+standard_error = sqrt(diag(solve(mm$hessian)))
 # print coeftable
 names(param)=c('mu','c','a1','a2','sc','sa1')
 se.coef = standard_error
