@@ -42,7 +42,7 @@ mm=nlminb(start = par,
           upper = c( 10*abs(mu),100*abs(mu),1-S,1-S, 5, 5))
 mm$convergence
 mm$par %>% round(3)
-# optim (different) -----------------------------------------------------------------------
+# optim (different from the text) -----------------------------------------------------------------------
 cat("\014")
 rm(list=ls())
 library(magrittr)
