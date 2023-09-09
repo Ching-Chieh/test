@@ -3,7 +3,7 @@
 # This script includes:
 #  1. nlminb
 #     No need too much carefulness in log likelihood function.
-#     Can't get Hessian matrix and thus can't get standard errors.
+#     Can't get Hessian matrix and thus can't get standard errors. So, I calculate numerical Hessian by myself.
 #     The result is the same with the text.
 #  2. optim L-BFGS-B
 #     Need some carefulness in log likelihood function.
@@ -56,6 +56,55 @@ mm=nlminb(start = par,
           upper = c( 10*abs(mu),100*abs(mu),1-S,1-S, 5, 5))
 mm$convergence
 mm$par %>% round(3)
+param=mm$par
+# numerical Hessian
+cat("\014")
+rm(list=setdiff(ls(),'param'))
+rtn=read.table('m-3m4608.txt', header = T)[,2]
+N=length(rtn)
+mu=mean(rtn)
+sig2=var(rtn)
+at=rtn[1:2]-mu
+h=rep(sig2,2)
+cat('numerical Hessian\n')
+npar = length(param)
+epsilon = 0.0001*param
+Hessian = matrix(0, ncol = npar, nrow = npar)
+star <- function(par){
+  f = 0
+  for (t in as.integer(3:N)){
+    resi = rtn[t]-par[1]
+    at=c(at,resi)
+    sig=par[2]+par[3]*at[t-1]^2+par[4]*at[t-2]^2
+    sig1=par[5]+par[6]*at[t-1]^2
+    ht=sig+sig1/(1+exp(-1000*at[t-1]))
+    h=c(h,ht)
+    epsi2 = resi^2/ht
+    f=f+0.5*log(ht)+0.5*epsi2
+  }
+  f
+}
+for (i in 1L:npar) {
+  for (j in 1L:npar) {
+    x1 = x2 = x3 = x4 = param
+    x1[i] = x1[i] + epsilon[i]; x1[j] = x1[j] + epsilon[j]
+    x2[i] = x2[i] + epsilon[i]; x2[j] = x2[j] - epsilon[j]
+    x3[i] = x3[i] - epsilon[i]; x3[j] = x3[j] + epsilon[j]
+    x4[i] = x4[i] - epsilon[i]; x4[j] = x4[j] - epsilon[j]
+    Hessian[i, j] = (star(x1)-star(x2)-star(x3)+star(x4))/(4*epsilon[i]*epsilon[j])
+  }
+}
+# print coeftable
+cat("Maximized log-likehood: ",-star(param),"\n")
+names(param)=c('mu','c','a1','a2','sc','sa1')
+se.coef = sqrt(diag(solve(Hessian)))
+tval = param/se.coef
+matcoef = cbind(param, se.coef, tval, 2*(1-pnorm(abs(tval))))
+dimnames(matcoef) = list(names(tval),
+                         c("Estimate","Std. Error","t value","Pr(>|t|)"))
+cat("\nCoefficient(s):\n")
+printCoefmat(matcoef, digits = 6, signif.stars = TRUE)
+
 # optim L-BFGS-B ----------------------------------------------------------------------------
 cat("\014")
 rm(list=ls())
