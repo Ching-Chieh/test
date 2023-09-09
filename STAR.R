@@ -66,10 +66,6 @@ mu=mean(rtn)
 sig2=var(rtn)
 at=rtn[1:2]-mu
 h=rep(sig2,2)
-cat('numerical Hessian\n')
-npar = length(param)
-epsilon = 0.0001*param
-Hessian = matrix(0, ncol = npar, nrow = npar)
 star <- function(par){
   f = 0
   for (t in as.integer(3:N)){
@@ -84,6 +80,10 @@ star <- function(par){
   }
   f
 }
+cat('numerical Hessian\n')
+npar = length(param)
+epsilon = 0.0001*param
+Hessian = matrix(0, ncol = npar, nrow = npar)
 for (i in 1L:npar) {
   for (j in 1L:npar) {
     x1 = x2 = x3 = x4 = param
