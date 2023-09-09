@@ -64,7 +64,7 @@ star <- function(par){
     sig1=par[5]+par[6]*at[t-1]^2
     ht=sig+sig1/(1+exp(-1000*at[t-1]))
     if(ht <= 0) {
-      ht_negative = T
+      ht_negative = TRUE
       break
     }
     h=c(h,ht)
@@ -79,7 +79,7 @@ star <- function(par){
   cat('par[6] = ',par[6],'\n')
   cat('ht = ',ht,'\n')
   if (ht_negative) f = 1e8
-  cat('neagtive log likelihood = ',f,'\n')
+  cat('negative log likelihood = ',f,'\n')
   return(f)
 }
 par=c(mu,0.1*sig2,0.1,0.1,0.1,0.1)
