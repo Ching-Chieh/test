@@ -86,8 +86,8 @@ par=c(mu,0.1*sig2,0.1,0.1,0.1,0.1)
 S = 1e-6
 mm=optim(par,star,method=c("L-BFGS-B"),
          hessian=T,
-         lower = c(S,S,S,S,-5,-5),
-         upper = c(5,5,1-S,1-S,5,5),
+         lower = c(-10*abs(mu),          S,  S,  S,-5,-5),
+         upper = c( 10*abs(mu),100*abs(mu),1-S,1-S, 5, 5),
          control = list(maxit=500))
 mm$convergence
 mm$par %>% round(3)
