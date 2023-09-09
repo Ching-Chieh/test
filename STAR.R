@@ -187,10 +187,4 @@ print('nlminb: ')
 nlminb_init_values %>% round(3)
 print('Nelder-Mead: ')
 mm$par %>% round(3)
-
-
-
-
-
-
-
+(standard_error = sqrt(diag(solve(mm$hessian)))) %>% round(3)
