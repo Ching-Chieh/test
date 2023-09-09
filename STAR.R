@@ -156,6 +156,17 @@ mm=optim(par,
          hessian = T)
 mm$convergence
 mm$par %>% round(3)
+standard_error = sqrt(diag(solve(mm$hessian)))
+param=mm$par
+# print coeftable
+names(param)=c('mu','c','a1','a2','sc','sa1')
+se.coef = standard_error
+tval = param/se.coef
+matcoef = cbind(param, se.coef, tval, 2*(1-pnorm(abs(tval))))
+dimnames(matcoef) = list(names(tval),
+                         c("Estimate","Std. Error","t value","Pr(>|t|)"))
+cat("\nCoefficient(s):\n")
+printCoefmat(matcoef, digits = 6, signif.stars = TRUE)
 # Nelder-Mead with nlminb Start Values -------------------------------------------------------------------------------
 # Step 1: Use nlminb to get start values
 cat("\014")
@@ -249,8 +260,17 @@ print('nlminb: ')
 nlminb_init_values %>% round(3)
 print('Nelder-Mead: ')
 mm$par %>% round(3)
+param=mm$par
 standard_error = sqrt(diag(solve(mm$hessian)))
-standard_error %>% round(3)
+# print coeftable
+names(param)=c('mu','c','a1','a2','sc','sa1')
+se.coef = standard_error
+tval = param/se.coef
+matcoef = cbind(param, se.coef, tval, 2*(1-pnorm(abs(tval))))
+dimnames(matcoef) = list(names(tval),
+                         c("Estimate","Std. Error","t value","Pr(>|t|)"))
+cat("\nCoefficient(s):\n")
+printCoefmat(matcoef, digits = 6, signif.stars = TRUE)
 # RATS program --------------------------------------------------------------------------------------------------------------
 end(reset)
 OPEN DATA "C:\Users\Jimmy\Desktop\m-3m4608.txt"
