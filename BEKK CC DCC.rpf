@@ -144,15 +144,14 @@ vcv(noprint,matrix=qbar)
 *
 nonlin a b
 dec frml[symm] qf
-dec series[symm] q ee hh
+dec series[symm] q ee
 *
 gset q  = qbar
 gset ee = qbar
-gset hh = qbar
 gset ee 2 * = %outerxx(%xt(eps,t))
 *
 frml qf   = (1-a-b)*qbar + a*ee{1} + b*q{1}
-frml logl = (q=qf),hh=%cvtocorr(q),%logdensity(hh,%xt(eps,t))
-compute a=sqrt(0.1), b=sqrt(0.85)
+frml logl = (q=qf),%logdensity(%cvtocorr(q),%xt(eps,t))
+compute a=0.01, b=0.5
 maximize(pmethod=simplex,piters=10,iters=200) logl 2 *
 
