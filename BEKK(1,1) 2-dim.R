@@ -1,12 +1,11 @@
 # 1 -----------------------------------------------------------------------
 cat("\014")
 rm(list=ls())
-library(magrittr)
 library(maxLik)
 head(rtn) # rtn is a matrix of assets returns.
 N = nrow(rtn)
 sigma0 = crossprod(rtn-matrix(1,N,1)%*%apply(rtn,2,mean))/N
-mu1=mean(da[,2]); mu2=mean(da[,3])
+mu1=mean(rtn[,1]); mu2=mean(rtn[,2])
 a11= 0.227; a12= 0.044
 a21= 0.097; a22= 0.165
 b11= 0.909; b12= 0.0005
