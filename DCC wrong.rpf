@@ -1,0 +1,98 @@
+* DCC --------------------------------------------------------------------------------------------------------------
+end(reset)
+OPEN DATA "C:\Users\Jimmy\Desktop\m-ibmspln.dat"
+DATA(FORMAT=PRN,NOLABELS,ORG=COLUMNS,TOP=2) 1 888 ibm sp500
+
+nonlin(parmset=meanparms) p10 p11 p12 p20
+linreg(noprint) ibm
+# constant ibm{1} sp500{2}
+compute p10=%beta(1), p11=%beta(2), p12=%beta(3)
+stats(noprint) sp500
+compute p20=%mean
+
+frml u1f = ibm-p10-p11*ibm{1}-p12*sp500{2}
+frml u2f = sp500-p20
+nlsystem(parmset=meanparms,resids=u,noprint) / u1f u2f
+set u1t = u(1)
+set u2t = u(2)
+set h1t = %sigma(1,1)
+set h2t = %sigma(2,2)
+set h12t = %sigma(1,2)
+* time-varying correlation
+set s12t = %sigma(1,2)/sqrt(%sigma(1,1)*%sigma(2,2))
+
+* unconditional correlation
+garch(noprint,regressors,p=1,q=1,hseries=gh1,resids=ga1) / ibm
+# constant ibm{1} sp500{2}
+set epis1 = ga1/sqrt(gh1)
+garch(noprint,p=1,q=1,hseries=gh2,resids=ga2) / sp500
+set epis2 = ga2/sqrt(gh2)
+sstats(mean) / epis1*epis2>>rho
+*
+nonlin(parmset=garchparms) c1 c2 a1 a2 b1 b2 alpha beta
+frml h1f  = c1 + a1*u1t{1}^2 + b1*h1t{1}
+frml h2f  = c2 + a2*u2t{1}^2 + b2*h2t{1}
+frml q12f = (1-alpha-beta)*rho + alpha*u1t{1}*u2t{1}/sqrt(h1t{1}*h2t{1}) + beta*q12f{1}
+frml q11f = (1-alpha-beta) + alpha*u1t{1}^2/h1t{1} + beta*q11f{1}
+frml q22f = (1-alpha-beta) + alpha*u2t{1}^2/h2t{1} + beta*q22f{1}
+frml s12f = q12f/sqrt(q11f*q22f)
+frml logl = u1t=u1f, u2t=u2f, h1t=h1f, h2t=h2f, s12t=s12f , h12t=s12t*sqrt(h1t*h2t), $
+			%logdensity(|| h1t(t),h12t(t)|h12t(t),h2t(t) ||,||u1t(t)|u2t(t)||)
+compute c1=0.1, c2=0.1, a1=0.1, a2=0.1, b1=0.8, b2=0.8, alpha=0.1, beta=0.8
+maximize(parmset=meanparms+garchparms,pmethod=simplex,piters=20,iters=200) logl 5 *
+
+* DCC --------------------------------------------------------------------------------------------------------------
+end(reset)
+OPEN DATA "C:\Users\Jimmy\Desktop\m-ibmspln.dat"
+DATA(FORMAT=PRN,NOLABELS,ORG=COLUMNS,TOP=2) 1 888 ibm sp500
+*
+nonlin(parmset=meanparms) p10 p11 p12 p20
+linreg(noprint) ibm
+# constant ibm{1} sp500{2}
+compute p10=%beta(1), p11=%beta(2), p12=%beta(3)
+stats(noprint) sp500
+compute p20=%mean
+*
+compute n=2
+dec vect[series] u(n)
+dec vect[frml] resid(n)
+dec vect[frml] hd(n)
+dec frml[symm] hf qf
+dec series[symm] uu h
+dec symm hx(n,n)
+dec vect ux(n)
+
+frml resid(1) = ibm-p10-p11*ibm{1}-p12*sp500{2}
+frml resid(2) = sp500-p20
+nlsystem(parmset=meanparms,resids=u,noprint) / resid
+gset uu = %sigma
+gset h  = %sigma
+* time-varying correlation
+set s12t = %sigma(1,2)/sqrt(%sigma(1,1)*%sigma(2,2))
+
+* unconditional correlation
+garch(noprint,regressors,p=1,q=1,hseries=gh1,resids=ga1) / ibm
+# constant ibm{1} sp500{2}
+set epis1 = ga1/sqrt(gh1)
+garch(noprint,p=1,q=1,hseries=gh2,resids=ga2) / sp500
+set epis2 = ga2/sqrt(gh2)
+sstats(mean) / epis1*epis2>>rho
+compute [rect] qbar = || 1, rho| rho, 1 ||
+*
+nonlin(parmset=garchparms) c1 c2 a1 a2 b1 b2 alpha beta
+frml hd(1) = c1 + a1*uu{1}(1,1) + b1*h{1}(1,1)
+frml hd(2) = c2 + a2*uu{1}(2,2) + b2*h{1}(2,2)
+frml qf    = sig1=1/sqrt(h{1}(1,1)), $
+	     sig2=1/sqrt(h{1}(2,2)), $
+	     D=%diag(||sig1,sig2||), $
+	     (1-alpha-beta)*qbar + alpha*D*uu{1}*D + beta*qf{1}
+frml s12f  = q=qf, q(1,2)/sqrt(q(1,1)*q(2,2))
+frml hf    = hx(1,1)=hd(1),hx(2,2)=hd(2),hx(1,2)=s12f*sqrt(hx(1,1)*hx(2,2)),hx
+frml logl  = $
+             hx = hf(t) , $
+             %do(i,1,n,u(i)=resid(i)) , $
+             ux = %xt(u,t), $
+             h(t)=hx, uu(t)=%outerxx(ux), $
+             %logdensity(hx,ux)
+compute c1=0.1, c2=0.1, a1=0.1, a2=0.1, b1=0.8, b2=0.8, alpha=0.1, beta=0.8
+maximize(parmset=meanparms+garchparms,pmethod=simplex,piters=20,iters=200) logl 5 *
