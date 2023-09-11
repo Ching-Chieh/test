@@ -2,7 +2,7 @@
 cat("\014")
 rm(list=ls())
 library(maxLik)
-head(rtn) # rtn is a matrix of assets returns.
+head(rtn) # rtn is a matrix of 2 assets returns.
 N = nrow(rtn)
 sigma0 = crossprod(rtn-matrix(1,N,1)%*%apply(rtn,2,mean))/N
 mu1=mean(rtn[,1]); mu2=mean(rtn[,2])
