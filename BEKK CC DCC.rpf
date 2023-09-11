@@ -123,4 +123,36 @@ maximize(parmset=meanparms+garchparms,pmethod=simplex,piters=10,iters=200) logl 
 * Compare
 garch(p=1,q=1,mv=cc) / sp500 csco intc
 
+* DCC two-step procedure ---------------------------------------------------------------------------------------------------------------
+end(reset)
+OPEN DATA "C:\Users\Jimmy\Desktop\d-fxsk9904.txt"
+DATA(FORMAT=PRN,NOLABELS,ORG=COLUMNS) 1 1496 fxeuro fxyen ibm dell
+garch(mv=dcc,dcc=correlations) / fxeuro fxyen ibm dell
+
+compute n=4
+dec vect[series] y(n)
+do i=1,n
+   set y(i) = ([series]i)
+end do i
+dec vect[series] u(n) h(n) eps(n)
+do i=1,n
+   garch(p=1,q=1,hseries=h(i),resids=u(i),noprint) / y(i)
+   set eps(i) = u(i)/sqrt(h(i))
+end do i
+vcv(noprint,matrix=qbar)
+# eps
+*
+nonlin a b
+dec frml[symm] qf
+dec series[symm] q ee hh
+*
+gset q  = qbar
+gset ee = qbar
+gset hh = qbar
+gset ee 2 * = %outerxx(%xt(eps,t))
+*
+frml qf   = (1-a-b)*qbar + a*ee{1} + b*q{1}
+frml logl = (q=qf),hh=%cvtocorr(q),%logdensity(hh,%xt(eps,t))
+compute a=sqrt(0.1), b=sqrt(0.85)
+maximize(pmethod=simplex,piters=10,iters=200) logl 2 *
 
