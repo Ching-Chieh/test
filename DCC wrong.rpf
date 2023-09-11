@@ -1,3 +1,4 @@
+* Wrong, unconditional covariance matrix of standardized residuals (qbar) depends upon the entire data range.
 * DCC --------------------------------------------------------------------------------------------------------------
 end(reset)
 OPEN DATA "C:\Users\Jimmy\Desktop\m-ibmspln.dat"
