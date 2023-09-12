@@ -71,6 +71,10 @@ compute leps=leta=0.0
 dlm(y=aapl,c=||1.0,sp||,sv=1.0,var=concentrate,sw=%diag(||exp(leta),exp(leps)||),$
    presample=ergodic,method=bfgs,type=smoothed) / xstates vstates
 *
+? "Measurement Stdev" @20 sqrt(%variance)
+? "Alpha Stdev" @20 sqrt(%variance*exp(leta))
+? "Beta Stdev" @20 sqrt(%variance*exp(leps))
+*
 set alpha = xstates(t)(1)
 set beta  = xstates(t)(2)
 set expret = %dot(||1.0,sp||,xstates)
