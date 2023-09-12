@@ -34,7 +34,7 @@ dlm(method=bfgs,sw=sw,sv=varx2,y=ysq,type=filter,c=1.0, $
 set h_sv = exp(states(t)(1))
 *
 * compare with EGARCH(1,1)
-garch(exp,nomean,hseries=h_egarch) / demean
+garch(p=1,q=1,exp,nomean,hseries=h_egarch) / demean
 *
 graph(footer="Estimates of Variance from SV and EGARCH Models",key=upleft,klabels=||"SV","EGARCH"||) 2
 # h_sv
