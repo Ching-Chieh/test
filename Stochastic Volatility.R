@@ -9,7 +9,7 @@ TSLA %>%
   as_tibble(rownames = 'date') %>% 
   mutate(date=ymd(date)) %>% 
   select(date, tsla.close = TSLA.Close) %>% 
-  mutate(tsla = tsla.close/dplyr::lag(tsla.close) - 1) %>% 
+  mutate(tsla = log(tsla.close/dplyr::lag(tsla.close))) %>% 
   slice(-1) %>%
   select(date, tsla) %>%
   write_csv('d-tsla2018.csv')
