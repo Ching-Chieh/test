@@ -28,6 +28,7 @@
   7. Time-Varying Correlation (Simple ver.)
   8. Time-Varying CAPM (Simple ver. and State Space Modelling)
   9. Statistical Arbitrage Pairs Trading (Cointegration)
+  10. Stochastic volatility - State-Space Modelling
 ## Corportate Finance
   1. Calculation of Crash Risk Measures
   2. Estimation of Organizational Capital
