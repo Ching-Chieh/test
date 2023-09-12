@@ -1,7 +1,7 @@
 # This scripts includes:
-# 1. Use garch(1,1) to calculate time-Varying Beta of TSLA
+# 1. Use GARCH(1,1) to calculate time-Varying Beta of TSLA
 # 2. Use a state-space model to calculate time-Varying Alpha and Beta of AAPL
-# Time-Varying Beta of TSLA, garch ----------------------------------------------------------------------------------
+# Time-Varying Beta of TSLA, GARCH ----------------------------------------------------------------------------------
 cat("\014")
 rm(list=ls())
 library(tidyverse)
