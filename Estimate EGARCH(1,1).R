@@ -76,10 +76,10 @@ linreg(noprint) ibm / u
 set logh = log(%seesq)
 *
 compute c=%beta(1), ar1=%beta(2), a0= -5.0, a1= -0.9, theta= -0.1, gam=0.2
-frml at   = ibm - c - ar1*ibm{1}
-frml e    = at/sqrt(exp(logh))
-frml g    = theta*(e) + gam*(abs(e)-sqrt(2./%pi))
+frml at    = ibm-c-ar1*ibm{1}
+frml e     = at/sqrt(exp(logh))
+frml g     = theta*(e) + gam*(abs(e)-sqrt(2./%pi))
 frml loghf = (1-a1)*a0 + g{1} + a1*logh{1}
-frml logl = u=at,logh=loghf,-0.5*(logh)-0.5*e^2
+frml logl  = u=at,logh=loghf,-0.5*(logh)-0.5*e^2
 maximize(method=bhhh) logl 3 *
 set h = exp(logh)
