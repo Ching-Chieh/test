@@ -1,6 +1,6 @@
 function Trinomial_Value = Trinomial_Alternative(S0,K,r,q,sigma,T,OptionType,ExerciseType,NT)
 % Trinomial Trees. Alternative precedure.
-% % John C. Hull. Options, Futures, and Other Derivatives, Global Edition. 9th p.514 Further Questions 21.29(c)
+% John C. Hull. Options, Futures, and Other Derivatives, Global Edition. 9th p.514 Further Questions 21.29(c)
 dt = T/NT;
 u = exp((r-0.5*(sigma^2))*dt+sigma*sqrt(3*dt));
 m = exp((r-0.5*(sigma^2))*dt);
