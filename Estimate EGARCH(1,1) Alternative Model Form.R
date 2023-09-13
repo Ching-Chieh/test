@@ -30,3 +30,18 @@ mm=optim(init_value,loglik,method="L-BFGS-B",hessian=T,lower=low,upper=upp)
 round(mm$par,4)
 h_series %>% head(20) %>% round(3)
 a_series %>% head(20) %>% round(3)
+# Use RATS
+end(reset)
+OPEN DATA "C:\Users\Jimmy\Desktop\m-ibmsp6709.txt"
+DATA(FORMAT=PRN,NOLABELS,ORG=COLUMNS,TOP=2,LEFT=2,RIGHT=2) 1 516 IBM
+linreg(noprint) ibm / u
+# constant
+set logh = log(%seesq)
+nonlin c a0 a1 gam b1
+compute c=%mean, a0=-0.6, a1= 0.1, gam=-0.5, b1=0.8
+frml at    = ibm-c
+frml e     = at/sqrt(exp(logh))
+frml loghf = a0 + a1*(abs(e{1})+gam*e{1}) + b1*logh{1}
+frml logl  = u=at, logh=loghf, -0.5*logh-0.5*e^2
+maximize(method=bhhh) logl 2 *
+set h = exp(logh)
