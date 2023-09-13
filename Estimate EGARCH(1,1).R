@@ -66,3 +66,20 @@ sigma_h_2_sq <- sigma_h_1_sq^alpha1*exp(w)*(
 cat('last volatility estimated from data',sqrt(sigma_h_sq),'\n')
 cat('one-step ahead forecast volatility',sqrt(sigma_h_1_sq),'\n')
 cat('two-step ahead forecast volatility',sqrt(sigma_h_2_sq),'\n')
+# Use RATS ------------------------------------------------------------------------------------------------------------
+end(reset)
+OPEN DATA "C:\Users\Jimmy\Desktop\ibm2697.csv"
+DATA(FORMAT=PRN,NOLABELS,ORG=COLUMNS,TOP=2,LEFT=2,RIGHT=2) 1 862 IBM
+nonlin c ar1 a0 a1 theta gam
+linreg(noprint) ibm / u
+# constant ibm{1}
+set logh = log(%seesq)
+*
+compute c=%beta(1), ar1=%beta(2), a0= -5.0, a1= -0.9, theta= -0.1, gam=0.2
+frml at   = ibm - c - ar1*ibm{1}
+frml e    = at/sqrt(exp(logh))
+frml g    = theta*(e) + gam*(abs(e)-sqrt(2./%pi))
+frml loghf = (1-a1)*a0 + g{1} + a1*logh{1}
+frml logl = u=at,logh=loghf,-0.5*(logh)-0.5*e^2
+maximize(method=bhhh) logl 3 *
+set h = exp(logh)
