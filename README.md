@@ -16,19 +16,19 @@
   2. Simulate and Estimate EGARCH(1,1) without using packages
   3. Conditional Heteroscedastic ARMA (CHARMA) Model
   4. Multivariate Volatility Models
-     * EWMA
-     * DVEC
-     * BEKK, Diagonal BEKK
-     * Diagnoal Constant Correlation (also directly estimate via ML estimation)
-     * Time-Varying Correlation Models
-     * Time-Varying Correlation Models (Cholesky Reparameterization)
-     * Dynamic Conditional Correlation Models
-  5. Asymptotic Principal Component Analysis
-  6. Smooth Transition AR (STAR) Model using various optimization methods in detail.
-  7. Time-Varying Correlation (Simple ver.)
-  8. Time-Varying CAPM (Simple ver. and State Space Modelling)
-  9. Statistical Arbitrage Pairs Trading (Cointegration)
-  10. Stochastic volatility - State-Space Modelling
+     * EWMA                                                                             (MVGARCH.rpf)
+     * DVEC                                                                             (MVGARCH.rpf)
+     * BEKK, Diagonal BEKK                                                              (MVGARCH.rpf) (BEKK CC.rpf) (BEKK(1,1) 2-dim.R)
+     * Constant Correlation Model                                                       (MVGARCH.rpf) (BEKK CC.rpf)
+     * Time-Varying Correlation Models                                                  (MVGARCH.rpf) (Time-Varying Correlation (Cholesky).rpf)
+     * Time-Varying Correlation Models (Cholesky Reparameterization)                    (MVGARCH.rpf) (Time-Varying Correlation (Cholesky).rpf)
+     * Dynamic Conditional Correlation Models                                           (MVGARCH.rpf) (DCC.R)
+  5. Asymptotic Principal Component Analysis                                            (Asymptotic Principal Component Model.R)
+  6. Smooth Transition AR (STAR) Model (Various optimization methods in details).       (STAR.R)
+  7. Time-Varying Correlation (Univariate GARCH)                                        (Time-Varying Correlations.R)
+  8. Time-Varying CAPM (Univariate GARCH and State Space Modelling)                     (Time-Varying CAPM.R)
+  9. Statistical Arbitrage Pairs Trading (Cointegration)                                (Statistical Arbitrage (Cointegration).R)
+  10. Stochastic volatility (State-Space Modelling)                                     (Stochastic Volatility.R)
 ## Corportate Finance
   1. Calculation of Crash Risk Measures
   2. Estimation of Organizational Capital
