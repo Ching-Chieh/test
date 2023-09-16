@@ -1,4 +1,5 @@
-# 
+# Gibbs Sampling for parameters of linear regression with AR(2) errors
+# Ruey S. Tsay, Analysis of Financial Time Series, 3th p.627
 # 1 -----------------------------------------------------------------------
 cat("\014")
 rm(list=ls())
