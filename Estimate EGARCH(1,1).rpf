@@ -1,14 +1,13 @@
-
-* Use R handle missing values first
-*cat("\014")
-*rm(list=ls())
-*library(tidyverse)
-*library(lubridate)
-*read.table('m-ibmvwew2697.txt',header = T, na.strings = '.') %>% 
-*  as_tibble() %>% 
-*  mutate(date=ymd(date)) %>% 
-*  filter(!is.na(ibm)) %>% 
-*  select(ibm) %>% write_csv('m-ibm2697.csv')
+# Use R handle missing values first --------------------------------------------------------------
+cat("\014")
+rm(list=ls())
+library(tidyverse)
+library(lubridate)
+read.table('m-ibmvwew2697.txt',header = T, na.strings = '.') %>% 
+  as_tibble() %>% 
+  mutate(date=ymd(date)) %>% 
+  filter(!is.na(ibm)) %>% 
+  select(ibm) %>% write_csv('m-ibm2697.csv')
 
 * RATS program
 * Estimate *****************************************************************************************
