@@ -29,6 +29,7 @@
   8. Time-Varying CAPM (Univariate GARCH and State Space Modelling)
   9. Statistical Arbitrage Pairs Trading (Cointegration)
   10. Stochastic volatility (State-Space Modelling)
+  11. Gibbs Sampling for parameters of linear regression with AR(2) errors
 ## Corportate Finance
   1. Calculation of Crash Risk Measures
   2. Estimation of Organizational Capital
