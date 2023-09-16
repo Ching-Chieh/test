@@ -1,0 +1,74 @@
+end(reset)
+OPEN DATA "C:\Users\Jimmy\Desktop\w-gs1n3c.txt"
+DATA(FORMAT=PRN,NOLABELS,ORG=COLUMNS,TOP=2,LEFT=4) 1 2466 c1t c3t
+*
+boxjenk(reg,ar=2,maxl) c3t
+# c1t
+linreg(noprint) c3t / z
+# c1t
+compute b1=%beta(1)
+linreg(noprint) z
+# z{1 2}
+compute rstart=%regstart(),rend=%regend()
+compute phi1=%beta(1),phi2=%beta(2)
+compute sigmasq=%sigmasq
+*
+compute hbeta0=.25
+compute [symm] hphi0=%diag(||1.0/.25,1.0/.16||)
+compute pscale=.05, pdf=10.0
+dec symm vphi
+dec vect phim phidraw
+*
+compute ndraws=2100
+dec vect[series] stats(4)
+do i=1,4
+   set stats(i) 1 ndraws = 0.0
+end do i
+labels stats
+# "b1" "phi1" "phi2" "sigma"
+*
+do draw=1,2100
+   *
+   * beta
+   *
+   set c3tf = c3t-phi1*c3t{1}-phi2*c3t{2}
+   set c1tf = c1t-phi1*c1t{1}-phi2*c1t{2}
+   cmom(noprint)
+   # c1tf c3tf
+   compute vbeta=1.0/(hbeta0+%cmom(1,1)/sigmasq)
+   compute betam=vbeta*%cmom(1,2)/sigmasq
+   compute beta1=betam+%ran(sqrt(vbeta))
+   *
+   * phi
+   *
+   set z = c3t-beta1*c1t
+   cmom(noprint)
+   # z{1 2 0}
+   compute vphi=inv(hphi0+%xsubmat(%cmom,1,2,1,2)/sigmasq)
+   compute phim=vphi*%xsubmat(%cmom,1,2,3,3)/sigmasq
+   compute phidraw=phim+%ranmvnormal(%decomp(vphi))
+   compute phi1=phidraw(1),phi2=phidraw(2)
+   *
+   * sigma^2
+   *
+   set at = z-phi1*z{1}-phi2*z{2}
+   sstats rstart rend at^2>>rss
+   compute sigmasq=(pscale*pdf+rss)/%ranchisqr(%nobs+pdf-2)
+   *
+   compute stats(1)(draw)=beta1
+   compute stats(2)(draw)=phi1
+   compute stats(3)(draw)=phi2
+   compute stats(4)(draw)=sigmasq
+end do draw
+*
+report(action=define)
+report(atrow=1,atcol=1) "Parameter" "b1" "phi1" "phi2" "sigmasq"
+report(atrow=2,atcol=1) "Mean"
+report(atrow=3,atcol=1) "St. Error"
+do i=1,4
+   stats(noprint) stats(i) 101 2100
+   report(atrow=2,atcol=i+1) %mean
+   report(atrow=3,atcol=i+1) sqrt(%variance)
+end do i
+report(action=format,picture="*.#####")
+report(action=show)
