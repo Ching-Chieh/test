@@ -56,7 +56,7 @@ do draw=1,ndraws
    *
    set at = z-phi1*z{1}-phi2*z{2}
    sstats rstart rend at^2>>rss
-   compute sigmasq=(pscale*pdf+rss)/%ranchisqr(%nobs+pdf-2)
+   compute sigmasq=(pscale*pdf+rss)/%ranchisqr(%nobs+pdf)
    *
    compute stats(1)(draw)=beta1
    compute stats(2)(draw)=phi1
