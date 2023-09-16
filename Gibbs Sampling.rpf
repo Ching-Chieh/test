@@ -30,7 +30,7 @@ end do i
 labels stats
 # "b1" "phi1" "phi2" "sigma"
 *
-do draw=1,2100
+do draw=1,ndraws
    *
    * beta
    *
@@ -69,7 +69,7 @@ report(atrow=1,atcol=1) "Parameter" "b1" "phi1" "phi2" "sigmasq"
 report(atrow=2,atcol=1) "Mean"
 report(atrow=3,atcol=1) "St. Error"
 do i=1,4
-   stats(noprint) stats(i) 101 2100
+   stats(noprint) stats(i) 101 ndraws
    report(atrow=2,atcol=i+1) %mean
    report(atrow=3,atcol=i+1) sqrt(%variance)
 end do i
