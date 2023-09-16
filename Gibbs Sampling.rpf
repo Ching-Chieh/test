@@ -9,7 +9,6 @@ boxjenk(reg,ar=2,maxl) c3t
 # c1t
 linreg(noprint) c3t / z
 # c1t
-compute b1=%beta(1)
 linreg(noprint) z
 # z{1 2}
 compute rstart=%regstart(),rend=%regend()
