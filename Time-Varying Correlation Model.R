@@ -36,7 +36,7 @@ logl <- function(parm) {
   rho=c(rep(0.6,3),rep(0,N-3))
   q=rep(0,N)
   for (t in 4:N) {
-    a1[t]=ibm[t]-p10-ibm[t-1]-sp500[t-2]
+    a1[t]=ibm[t]-p10-p11*ibm[t-1]-p12*sp500[t-2]
     a2[t]=sp500[t]-p20
     h1[t]=abs(c1+a11*a1[t-1]^2              +b11*h1[t-1]+b12*h2[t-1])
     h2[t]=abs(c2+a21*a1[t-1]^2+a22*a2[t-1]^2+b21*h1[t-1]+b22*h2[t-1])
