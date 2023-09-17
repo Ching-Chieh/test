@@ -68,7 +68,6 @@ logl <- function(parm){
   for (t in 4:N) {
     a1[t]=ibm[t]-p10-p11*ibm[t-1]-p12*ibm[t-2]-p13*sp500[t-2]
     a2[t]=sp500[t]-p20
-    
     h1[t]=c1+a11*a1[t-1]^2+b1*h[t]
     h2[t]=c2              +b2*h[t]
     q[t]=q0+q1*rho[t-1]+q2*a1[t-1]*a2[t-1]/sqrt(h1[t-1]*h2[t-1])
