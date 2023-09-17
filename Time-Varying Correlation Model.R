@@ -27,7 +27,7 @@ logl <- function(parm) {
   c1=parm[5];    c2=parm[6]
   a11=parm[7];  a21=parm[8];  a22=parm[9]
   b11=parm[10]; b12=parm[11]; b21=parm[12]; b22=parm[13]
-  q0=parm[14];   q1=parm[15];  q2=parm[16];
+  q0=parm[14];   q1=parm[15];  q2=parm[16]
   #
   a1=c(0,0,u1,rep(0,N-3))
   a2=c(u2,rep(0,N-3))
@@ -38,10 +38,6 @@ logl <- function(parm) {
   for (t in 4:N) {
     a1[t]=ibm[t]-p10-ibm[t-1]-sp500[t-2]
     a2[t]=sp500[t]-p20
-    
-    # h1[t]=c1+a11*a1[t-1]^2              +b11*h1[t-1]+b12*h2[t-1]
-    # h2[t]=c2+a21*a1[t-1]^2+a22*a2[t-1]^2+b21*h1[t-1]+b22*h2[t-1]
-    
     h1[t]=abs(c1+a11*a1[t-1]^2              +b11*h1[t-1]+b12*h2[t-1])
     h2[t]=abs(c2+a21*a1[t-1]^2+a22*a2[t-1]^2+b21*h1[t-1]+b22*h2[t-1])
     q[t]=q0+q1*rho[t-1]+q2*a1[t-1]*a2[t-1]/sqrt(h1[t-1]*h2[t-1])
@@ -50,7 +46,6 @@ logl <- function(parm) {
   # negative log likelihood
   sum(0.5*(log(h1)+log(h2)+log(1-rho^2)+
              1/(1-rho^2)*(a1^2/h1+a2^2/h2-2*rho*a1*a2/sqrt(h1*h2))))
-  
 }
 params = c(p10=ibm.coef[1], p11=ibm.coef[2], p12=ibm.coef[3],
            p20=mean(sp500),
