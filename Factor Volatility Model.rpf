@@ -1,0 +1,37 @@
+* Factor Volatility Model
+* Ruey S. Tsay, Analysis of Financial Time Series, 3th p.544
+* RATS program
+end(reset)
+OPEN DATA "C:\Users\Jimmy\Desktop\m-ibmspln.dat"
+DATA(FORMAT=PRN,NOLABELS,ORG=COLUMNS,TOP=2) 1 888 ibm sp500
+vcv(center)
+# ibm sp500
+@prinfactors(print,vectors=ev) %sigma
+set x = ev(1,1)*ibm+ev(2,1)*sp500
+garch(reg,p=1,q=1,hseries=h,noprint) / x
+# constant x{1}
+nonlin(parmset=meanparms) p10 p11 p12 p13 p20
+frml a1f = ibm-p10-p11*ibm{1}-p12*ibm{2}-p13*sp500{2}
+frml a2f = sp500-p20
+linreg(noprint) ibm
+# constant ibm{1 2} sp500{2}
+compute p10=%beta(1), p11=%beta(2), p12=%beta(3), p13=%beta(4)
+stats(noprint) sp500
+compute p20 = %mean
+nlsystem(parmset=meanparms,noprint) / a1f a2f
+set a1t = a1f
+set a2t = a2f
+set h1t = %sigma(1,1)
+set h2t = %sigma(2,2)
+set rho = %sigma(1,2)/sqrt(%sigma(1,1)*%sigma(2,2))
+nonlin(parmset=garchparms) c1 c2 a11 b1 b2 q0 q1 q2
+compute c1=%sigma(1,1), a11=0.0, b1=0.0
+compute c2=%sigma(2,2),          b2=0.0
+compute q0=0.0, q1=1.0, q2=0.0
+*
+frml h1f  = c1+a11*a1t{1}^2+b1*h
+frml h2f  = c2             +b2*h
+frml qf   = q0+q1*rho{1}+q2*a1t{1}*a2t{1}/sqrt(h1t{1}*h2t{1})
+frml logl = a1t=a1f,a2t=a2f,h1t=h1f,h2t=h2f,rho=%logistic(qf,1.0),$
+   %logdensity(||h1t|rho*sqrt(h1t*h2t),h2t||,||a1t,a2t||)
+maximize(parmset=meanparms+garchparms) logl 4 *
