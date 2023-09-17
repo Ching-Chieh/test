@@ -95,7 +95,7 @@ lowerBounds = c(
 upperBounds = c(
   p10 = 5*abs(ibm.coef[1]), p11 = 5*abs(ibm.coef[2]), p12 = 5*abs(ibm.coef[3]),
   p13 = 5*abs(ibm.coef[4]),
-  p20 = -5*abs(mean(sp500)),
+  p20 = 5*abs(mean(sp500)),
   c1 = 30, c2 = 30,
   a11 = 1-S,
   b1 = 1-S, b2 = 1-S,
