@@ -1,6 +1,6 @@
 # Estimate EGARCH(1,1) without using packages.
 # Ruey S. Tsay. An Introduction to Analysis of Financial Data with R. p.218
-# Ruey S. Tsay. Analysis of Financial Time Series, 3th, p.144. Alternative Model Form
+# R -------------------------------------------------------------------------------------------------------------
 cat("\014")
 rm(list=ls())
 rtn=log(read.table("m-ibmsp6709.txt",header=T)$ibm+1)
@@ -30,7 +30,7 @@ mm=optim(init_value,loglik,method="L-BFGS-B",hessian=T,lower=low,upper=upp)
 round(mm$par,4)
 h_series %>% head(20) %>% round(3)
 a_series %>% head(20) %>% round(3)
-# Use RATS
+# Use RATS --------------------------------------------------------------------------------------------------------
 end(reset)
 OPEN DATA "C:\Users\Jimmy\Desktop\m-ibmsp6709.txt"
 DATA(FORMAT=PRN,NOLABELS,ORG=COLUMNS,TOP=2,LEFT=2,RIGHT=2) 1 516 IBM
