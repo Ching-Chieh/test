@@ -1,6 +1,6 @@
 # Estimate EGARCH(1,1) without using packages.
 # Ruey S. Tsay. An Introduction to Analysis of Financial Data with R. p.218
-# R -------------------------------------------------------------------------------------------------------------
+# Use R -------------------------------------------------------------------------------------------------------------
 cat("\014")
 rm(list=ls())
 rtn=log(read.table("m-ibmsp6709.txt",header=T)$ibm+1)
