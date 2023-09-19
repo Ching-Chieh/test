@@ -81,7 +81,7 @@ do draws=-nburn,nkeep
 end do draws
 infobox(action=remove)
 *
-* Posterior Density for gamma
+* Posterior Density for gamma -----------------------------------------------------
 *
 set gammas 1 nkeep = stats(t)(1)
 density(grid=automatic,maxgrid=100,smoothing=1.5) $
@@ -89,7 +89,7 @@ gammas / xgamma fgamma
 scatter(style=line,vmin=0.0,footer="Posterior Density for gamma")
 # xgamma fgamma
 *
-* Posterior Density for phi
+* Posterior Density for phi ---------------------------------------------------------
 *
 set phis 1 nkeep = stats(t)(2)
 density(grid=automatic,maxgrid=100,smoothing=1.5) $
@@ -97,7 +97,7 @@ phis / xphi fphi
 scatter(style=line,vmin=0.0,footer="Posterior Density for phi")
 # xphi fphi
 *
-* Posterior Density for Sigma
+* Posterior Density for Sigma --------------------------------------------------------- 
 *
 set sigws 1 nkeep = stats(t)(3)
 density(grid=automatic,maxgrid=100,smoothing=1.5) $
@@ -105,7 +105,7 @@ sigws / xsigma fsigma
 scatter(style=line,vmin=0.0,footer="Posterior Density for Sigma")
 # xsigma fsigma
 *
-* Posterior Density for Process Mean
+* Posterior Density for Process Mean ---------------------------------------------------
 *
 set gammaxs 1 nkeep = stats(t)(4)
 density(grid=automatic,maxgrid=100,smoothing=1.5) $
@@ -114,7 +114,7 @@ scatter(style=line,vmin=0.0,$
 footer="Posterior Density for Process Mean")
 # xgammax fgammax
 *
-* Posterior Density for Process Variance
+* Posterior Density for Process Variance -------------------------------------------------
 *
 set sigwxs 1 nkeep = stats(t)(5)
 density(grid=automatic,maxgrid=100,smoothing=1.5) $
@@ -123,7 +123,7 @@ scatter(style=line,vmin=0.0,$
 footer="Posterior Density for Process Variance")
 # xsigmax fsigmax
 *
-* Mean Estimate of Volatility
+* Mean Estimate of Volatility -------------------------------------------------------------
 *
 set hstats gstart gend = hstats/nkeep
 graph(footer="Mean Estimate of Volatility")
