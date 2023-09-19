@@ -1,0 +1,128 @@
+* RATS program
+* Markov Chain Monte Carlo, Gibbs Sampling
+* exchange rates from 1/10/1981 to 28/6/1985
+* Kim, Shepard, and Chib (1998), Stochastic Volatility: Likelihood Inference and Comparison with ARCH Models
+end(reset)
+OPEN DATA "C:\Users\Jimmy\Desktop\da1.csv"
+DATA(FORMAT=PRN,NOLABELS,ORG=COLUMNS,TOP=2) 1 946 USXUK USXGER USXJPN USXSUI
+*
+set dlogp = 100.0*log(usxuk{0}/usxuk{1})
+diff(center) dlogp / demean
+*
+garch(p=1,q=1,hseries=h) / demean
+set z = log(h)
+linreg z
+# constant z{1}
+*
+nonlin(parmset=svparms) gamma phi sigw gammax sigwx
+compute gamma=%beta(1),phi=%beta(2),sigw=sqrt(%sigmasq)
+compute gammax=gamma/(1-phi),sigwx=sigw/sqrt(1-phiˆ2)
+*
+compute [symm] hgamma0=%diag(||1.0/100.0,1.0/100.0||)
+compute [vect] gamma0=%zeros(2,1)
+compute pscale=.007
+compute pdf =1.0
+*
+compute nkeep=10000
+compute nburn=10000
+compute gstart=%regstart(),gend=%regend()
+dec vect dphi
+dec series[vect] stats
+gset stats 1 nkeep = %parmspeek(svparms)
+set hstats gstart gend = 0.0
+*
+infobox(action=define,progress,lower=-nburn,upper=nkeep) "Gibbs Sampler"
+do draws=-nburn,nkeep
+   *
+   * gamma, phi ---------------------------------------------------------------
+   *
+   cmom(noprint)
+   # constant z{1} z
+:redraw
+   compute dgamma=%ranmvpostcmom(%cmom,1.0/sigwˆ2,hgamma0,gamma0)
+   compute gamma=dgamma(1),phi=dgamma(2)
+   if abs(phi)>1.0 {
+      disp "Problem with phi"
+      goto redraw
+   }
+   *
+   * sigw -----------------------------------------------------------------------
+   *
+   compute %rss=%qform(%cmom,dgamma˜˜~~1.0)
+   compute sigmasq=(pscale*pdf+%rss)/%ranchisqr(%nobs+pdf)
+   compute sigw=sqrt(sigmasq)
+   *
+   * z -------------------------------------------------------------------------------
+   *
+   do time=gstart,gend
+      if time==gstart
+         compute zsqterms=1.0/sigmasq,$
+                 zterms=1.0/sigmasq*(gamma+phi*z(time+1))
+      else
+      if time==gend
+         compute zsqterms=1.0/sigmasq,$
+                 zterms=1.0/sigmasq*(gamma+phi*z(time-1))
+      else
+         compute zsqterms=(1+phiˆ2)/sigmasq,$
+                 zterms=(1/sigmasq)*(phi*(z(time+1)+z(time-1))+gamma*(1-phi))
+      @KSCPostDraw(iters=5) demean(time) zterms zsqterms z(time)
+      if failed
+         disp time demean(time) zterms zsqterms
+   end do time
+   *
+   infobox(current=draws)
+   if draws<=0
+	  next
+   compute gammax=gamma/(1-phi),sigwx=sigw/sqrt(1-phiˆ2)
+   compute stats(draws)=%parmspeek(svparms)
+   set hstats gstart gend = hstats+exp(z)
+end do draws
+infobox(action=remove)
+*
+* Posterior Density for gamma
+*
+set gammas 1 nkeep = stats(t)(1)
+density(grid=automatic,maxgrid=100,smoothing=1.5) $
+gammas / xgamma fgamma
+scatter(style=line,vmin=0.0,footer="Posterior Density for gamma")
+# xgamma fgamma
+*
+* Posterior Density for phi
+*
+set phis 1 nkeep = stats(t)(2)
+density(grid=automatic,maxgrid=100,smoothing=1.5) $
+phis / xphi fphi
+scatter(style=line,vmin=0.0,footer="Posterior Density for phi")
+# xphi fphi
+*
+* Posterior Density for Sigma
+*
+set sigws 1 nkeep = stats(t)(3)
+density(grid=automatic,maxgrid=100,smoothing=1.5) $
+sigws / xsigma fsigma
+scatter(style=line,vmin=0.0,footer="Posterior Density for Sigma")
+# xsigma fsigma
+*
+* Posterior Density for Process Mean
+*
+set gammaxs 1 nkeep = stats(t)(4)
+density(grid=automatic,maxgrid=100,smoothing=1.5) $
+gammaxs / xgammax fgammax
+scatter(style=line,vmin=0.0,$
+footer="Posterior Density for Process Mean")
+# xgammax fgammax
+*
+* Posterior Density for Process Variance
+*
+set sigwxs 1 nkeep = stats(t)(5)
+density(grid=automatic,maxgrid=100,smoothing=1.5) $
+sigwxs / xsigmax fsigmax
+scatter(style=line,vmin=0.0,$
+footer="Posterior Density for Process Variance")
+# xsigmax fsigmax
+*
+* Mean Estimate of Volatility
+*
+set hstats gstart gend = hstats/nkeep
+graph(footer="Mean Estimate of Volatility")
+# hstats
