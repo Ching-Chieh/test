@@ -2,6 +2,8 @@
 * Markov Chain Monte Carlo, Gibbs Sampling
 * exchange rates from 1/10/1981 to 28/6/1985
 * Kim, Shepard, and Chib (1998), Stochastic Volatility: Likelihood Inference and Comparison with ARCH Models
+*   log(h(t)) = gamma + phi*log(h(t-1)) + w(t)
+*   y(t) = sqrt(h(t))*v(t),  v(t) ~ N(0,1)
 end(reset)
 OPEN DATA "C:\Users\Jimmy\Desktop\da1.csv"
 DATA(FORMAT=PRN,NOLABELS,ORG=COLUMNS,TOP=2) 1 946 USXUK USXGER USXJPN USXSUI
