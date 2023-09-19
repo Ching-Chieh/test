@@ -1,4 +1,4 @@
-# test
+# Some Snippets
 ## Derivatives Pricing
   1. Black–Scholes–Merton Model
   2. Binomial Trees
@@ -10,12 +10,14 @@
   8. Control Variate Technique for European Call
   9. Calculate implied hazard rate from market CDS spread
   10. VaR of a four-index portfolio
-  11. RiskMetrics lambda
+  11. RiskMetrics' lambda
 ## Time Series
   1. Simulate and Estimate GARCH(1,1) without using packages
   2. Simulate and Estimate EGARCH(1,1) without using packages
   3. Conditional Heteroscedastic ARMA (CHARMA) Model
-  4. Multivariate Volatility Models
+  4. Time-Varying Correlation (Univariate GARCH)
+  5. Time-Varying CAPM (Univariate GARCH and State Space Modelling)
+  6. Multivariate Volatility Models
      * EWMA
      * DVEC
      * BEKK, Diagonal BEKK
@@ -23,17 +25,17 @@
      * Time-Varying Correlation Models
      * Time-Varying Correlation Models (Cholesky Reparameterization)
      * Dynamic Conditional Correlation Models
-  5. Asymptotic Principal Component Analysis
-  6. Smooth Transition AR (STAR) Model (Various optimization methods)
-  7. Time-Varying Correlation (Univariate GARCH)
-  8. Time-Varying CAPM (Univariate GARCH and State Space Modelling)
+     * Factor Volatility Model
+  7. Asymptotic Principal Component Analysis
+  8. Smooth Transition AR (STAR) Model (Various optimization methods)
   9. Statistical Arbitrage Pairs Trading (Cointegration)
-  10. Stochastic volatility (State-Space Modelling)
+  10. Stochastic Volatility
+      * State-Space Modelling
+      * Markov Chain Monte Carlo
   11. Gibbs Sampling for parameters of linear regression with AR(2) errors
-  12. Multivariate Factor Volatility Model
-## Corportate Finance
+## Corportate Finance (Undisclosed)
   1. Calculation of Crash Risk Measures
-  2. Estimation of Organizational Capital
+  2. Calculation of Organizational Capital
   3. Estimation of Discretionary Accruals (Modified Jones Model and Leave-One-Out Regression)
 ## Others
-   * Prediction of TSMC Price (undergraduate ML course project)
+   * Prediction of TSMC Price (Python, undergraduate ML course project)
