@@ -1,4 +1,6 @@
 # Stochastic Volatility of TSLA - State-Space Model
+#   log(h(t)) = gamma + phi*log(h(t-1)) + w(t)
+#   y(t) = sqrt(h(t))*v(t),  v(t) ~ N(0,1)
 # R fetch TSLA data -----------------------------------------------------------------------------
 cat("\014")
 rm(list=ls())
