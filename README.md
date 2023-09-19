@@ -33,7 +33,7 @@
       * State-Space Modelling
       * Markov Chain Monte Carlo
   11. Gibbs Sampling for parameters of linear regression with AR(2) errors
-## Corportate Finance (Undisclosed)
+## Corporate Finance (Undisclosed)
   1. Calculation of Crash Risk Measures
   2. Calculation of Organizational Capital
   3. Estimation of Discretionary Accruals (Modified Jones Model and Leave-One-Out Regression)
