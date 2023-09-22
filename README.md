@@ -12,6 +12,7 @@
   10. VaR of a four-index portfolio
   11. RiskMetrics' lambda
   12. Variance-Gamma Model
+  13. Vasicek Model
 ## Time Series
   1. Simulate and Estimate GARCH(1,1) without using packages
   2. Simulate and Estimate EGARCH(1,1) without using packages
