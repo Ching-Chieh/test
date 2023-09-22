@@ -23,7 +23,7 @@ logl <- function(parm){
   ll=sum(-log(sigma^2*dt)-(diff(r)-a*(b-r[-length(r)])*dt)^2/(sigma^2*dt))
   -ll
 }
-init_values=c(0.2,0.04,0.008)
+init_values=c(a=0.2,b=0.04,sigma=0.008)
 S=1e-6
 mm=optim(init_values,logl,method = 'L-BFGS-B',lower = c(S,S,S))
 mm$convergence # 0 is successful
