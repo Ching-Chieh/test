@@ -1,6 +1,6 @@
 # 99.9% Worst Case Default Rate (WCDR)
 # Vasicek's Model, One-factor Gaussian copula model
-# Assumption:
+# Assumptions:
 #    1. All loans have the same unconditional cdf for the time to default.
 #    2. The copula correlation between each pair of loans is the same.
 # John C. Hull. Risk Management and Financial Institutions, 5th, p262
