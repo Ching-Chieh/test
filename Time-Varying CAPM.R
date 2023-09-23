@@ -44,6 +44,7 @@ ggplot(df, aes(date,beta)) +
   labs(y = "Beta",
        title = 'Time-Varying Beta of TSLA')
 # AAPL Time-Varying CAPM - State-Space Model -----------------------------------------------------------
+# Step 1: Download S&P500 and AAPL data using R ---------------------
 cat("\014")
 rm(list=ls())
 library(tidyverse)
@@ -65,7 +66,7 @@ sp500 %>%
   drop_na() %>% 
   select(date,sp500,aapl) %>% 
   write_csv('d-sp500aapl1023.csv')
-# RATS program  ---------------------------------------------------------------------------------------------
+# Step 2: State-Space Modelling using RATS ---------------------
 end(reset)
 OPEN DATA "C:\Users\Jimmy\Desktop\d-sp500aapl1023.csv"
 DATA(FORMAT=PRN,NOLABELS,ORG=COLUMNS,TOP=2,LEFT=2) 1 3442 sp aapl
