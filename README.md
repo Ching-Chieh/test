@@ -13,6 +13,7 @@
   11. RiskMetrics' lambda
   12. Variance-Gamma Model
   13. Vasicek Model
+  14. Constant Elasticity of Variance (CEV) Model
 ## Time Series
   1. Simulate and Estimate GARCH(1,1) without using packages
   2. Simulate and Estimate EGARCH(1,1) without using packages
@@ -34,6 +35,7 @@
   10. Stochastic Volatility
       * State-Space Modelling
       * Markov Chain Monte Carlo
+      * Simulate Heston Model
   11. Gibbs Sampling for parameters of linear regression with AR(2) errors
 ## Corporate Finance (Undisclosed)
   1. Calculation of Crash Risk Measures
