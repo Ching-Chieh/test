@@ -18,10 +18,11 @@
 ## Time Series
   1. Simulate and Estimate GARCH(1,1) without using packages
   2. Simulate and Estimate EGARCH(1,1) without using packages
-  3. Conditional Heteroscedastic ARMA (CHARMA) Model
-  4. Time-Varying Correlation (Univariate GARCH)
-  5. Time-Varying CAPM (Univariate GARCH and State Space Modelling)
-  6. Multivariate Volatility Models
+  3. Simulate Autoregressive Conditional Duration Model
+  4. Conditional Heteroscedastic ARMA (CHARMA) Model
+  5. Time-Varying Correlation (Univariate GARCH)
+  6. Time-Varying CAPM (Univariate GARCH and State Space Modelling)
+  7. Multivariate Volatility Models
      * EWMA
      * DVEC
      * BEKK, Diagonal BEKK
@@ -30,14 +31,14 @@
      * Time-Varying Correlation Models (Cholesky Reparameterization)
      * Dynamic Conditional Correlation Models
      * Factor Volatility Model
-  7. Asymptotic Principal Component Analysis
-  8. Smooth Transition AR (STAR) Model (Various optimization methods)
-  9. Statistical Arbitrage Pairs Trading (Cointegration)
-  10. Stochastic Volatility
+  8. Asymptotic Principal Component Analysis
+  9. Smooth Transition AR (STAR) Model (Various optimization methods)
+  10. Statistical Arbitrage Pairs Trading (Cointegration)
+  11. Stochastic Volatility
       * State-Space Modelling
       * Markov Chain Monte Carlo
       * Simulate Heston Model
-  11. Gibbs Sampling for parameters of linear regression with AR(2) errors
+  12. Gibbs Sampling for parameters of linear regression with AR(2) errors
 ## Corporate Finance (Undisclosed)
   1. Calculation of Crash Risk Measures
   2. Calculation of Organizational Capital
