@@ -9,8 +9,8 @@ L <- t(chol(Sigma))
 L
 set.seed(123)
 drift <- c("mu*S", "a*(VL-V)")
-diffusion <- matrix(c("c11*sqrt(V)*S", "0",
-                      "c21*sqrt(V)*xi", "c22*sqrt(V)*xi"),
+diffusion <- matrix(c("c11*S*sqrt(V)", "0",
+                      "c21*xi*sqrt(V)", "c22*xi*sqrt(V)"),
                     2, byrow = T)
 heston <- setModel(drift=drift, diffusion=diffusion, state.var=c("S","V"))
 sim1 <- simulate(heston, true.par=list(mu=1.2, a=2, VL=0.5, xi=0.2,
