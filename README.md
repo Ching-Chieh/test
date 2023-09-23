@@ -18,7 +18,7 @@
 ## Time Series
   1. Simulate and Estimate GARCH(1,1) without using packages
   2. Simulate and Estimate EGARCH(1,1) without using packages
-  3. Simulate Autoregressive Conditional Duration Model
+  3. Simulate Autoregressive Conditional Duration (ACD) Model
   4. Conditional Heteroscedastic ARMA (CHARMA) Model
   5. Time-Varying Correlation (Univariate GARCH)
   6. Time-Varying CAPM (Univariate GARCH and State Space Modelling)
