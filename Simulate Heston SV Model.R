@@ -1,4 +1,6 @@
 # Heston -----------------------------------------------------------------------
+# dS = mu*dt + sqrt(V)*dzs
+# dV = a(VL-V)dt + xi*sqrt(V)*dzv
 cat("\014")
 rm(list=ls())
 library(yuima)
