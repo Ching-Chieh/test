@@ -1,7 +1,7 @@
 # Stochastic Volatility of TSLA - State-Space Model
 #   log(h(t)) = gamma + phi*log(h(t-1)) + w(t)
 #   y(t) = sqrt(h(t))*v(t),  v(t) ~ N(0,1)
-# R fetch TSLA data -----------------------------------------------------------------------------
+# 1. R fetch TSLA data -----------------------------------------------------------------------------
 cat("\014")
 rm(list=ls())
 library(tidyverse)
@@ -15,7 +15,7 @@ TSLA %>%
   slice(-1) %>%
   select(date, tsla) %>%
   write_csv('d-tsla2018.csv')
-# RATS program -----------------------------------------------------------------------------
+# 2. RATS program -----------------------------------------------------------------------------
 end(reset)
 OPEN DATA "C:\Users\Jimmy\Desktop\d-tsla2018.csv"
 DATA(FORMAT=PRN,NOLABELS,ORG=COLUMNS,TOP=2,LEFT=2) 1 1432 TSLA
