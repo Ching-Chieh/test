@@ -2,8 +2,10 @@
 # Data are from Cappiello, Engle & Sheppard (2006) Asymmetric Dynamics in the Correlations of Global Equity and Bond Returns
 # 1. Use R to manipulate data and use RATS to estimate.
 # 2. All use R
-# data -----------------------------------------------------------------------------------------------------------
-# data from Cappiello, Engle & Sheppard (2006) Asymmetric Dynamics in the Correlations of Global Equity and Bond Returns
+#
+# 1. Use R and RATS -------------------------------------------------------------------------------------------------------------------------
+# Step 1: Organize data using R  -----------------------------------------------------------------------------
+# Data are from Cappiello, Engle & Sheppard (2006) Asymmetric Dynamics in the Correlations of Global Equity and Bond Returns
 cat("\014")
 rm(list=ls())
 library(tidyverse)
@@ -12,7 +14,7 @@ read_excel("g.xlsx") %>%
   mutate(across(everything(),~100*log(.x/dplyr::lag(.x)))) %>% 
   slice(-1) %>% 
   write_csv('g1.csv')
-# RATS program ----------------------------------------------------------------------------------------------------
+# Step 2: Estimate using RATS ---------------------------------------------------------------------------------
 end(reset)
 OPEN DATA "C:\Users\Jimmy\Desktop\g1.csv"
 DATA(FORMAT=PRN,NOLABELS,ORG=COLUMNS,TOP=2) 1 1866 y1 y2 y3 y4 y5
@@ -45,7 +47,7 @@ frml qf   = (1-a-b)*qbar + a*ee{1} + b*q{1}
 frml logl = (q=qf),hh=%corrtocv(%cvtocorr(q),%xt(h,t)),%logdensity(hh,%xt(u,t))
 compute a=0.01, b=0.5
 maximize logl 2 *
-# All use R ------------------------------------------------------------------------------------------------------
+# 2. All use R --------------------------------------------------------------------------------------------------------------------------------
 cat("\014")
 rm(list=ls())
 library(tidyverse)
