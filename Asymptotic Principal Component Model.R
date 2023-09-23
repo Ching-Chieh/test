@@ -1,6 +1,8 @@
 # R program
+# Connor and Korajczyk (1986). Performance measurement with the arbitrage pricing theory: A new framework for analysis. JFE
+# Connor and Korajczyk (1988). Risk and return in an equilibrium APT: Application of a new test methodology. JFE
 # For small T and a large quantity of assets
-# This example 40 assets and T=36
+# This example has 40 assets and T=36.
 cat("\014")
 rm(list=ls())
 library(tidyverse)
