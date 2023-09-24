@@ -1,0 +1,59 @@
+* AAPL's range of daily log prices from Jan/4/1999 to Nov/20/2007
+* Range of daily log prices is a robust alternative to volatility modelling.
+* Apply ACD model to model AAPL's range.
+* Tsay, Analysis of Financial Time Series, 3th, p.271
+*
+end(reset)
+OPEN DATA "C:\Users\Jimmy\Desktop\d-aapl9907.txt"
+DATA(FORMAT=PRN,NOLABELS,ORG=COLUMNS,TOP=2,LEFT=2) 1 2235 mon day year open high low close volume adjclose
+*
+set range = log(high/low)
+*
+* EACD(1,1) ---------------------------------------------------------------------
+*
+dec series psi
+nonlin alpha0 alpha1 beta1
+frml durf = alpha0+alpha1*range{1}+beta1*psi{1}
+*
+* Substitute 1 for alpha in Tsay (5.41)
+*
+frml logl = (psi=durf),-log(psi)-range/psi
+*
+stats range
+set psi = %mean
+compute alpha0=%mean,alpha1=beta1=0.0
+maximize(iters=500) logl 2 *
+*
+* WACD(1,1) ----------------------------------------------------------------------
+*
+* Here it sets the expectation value of range to psi.
+*
+nonlin alpha0 alpha1 beta1 alpha
+frml durf = alpha0+alpha1*range{1}+beta1*psi{1}
+*
+* See Tsay (5.56). Setting range=psi*Y and doing change of variable will obtain range's log likelihood.
+* Here eta=psi/gammafunction(1+1/alpha)
+*
+frml logl = (psi=durf),(gma=%lngamma(1+1.0/alpha)),(eta=psi/exp(gma)),$
+   log(alpha)+(alpha-1)*log(range)-alpha*log(eta)-(range/eta)^alpha
+*
+stats range
+set psi = %mean
+compute alpha0=%mean,alpha1=beta1=0.0,alpha=1.0
+maximize(iters=500) logl 2 *
+*
+* GACD(1,1) ----------------------------------------------------------------------
+*
+nonlin alpha0 alpha1 beta1 alpha kappa
+frml durf = alpha0+alpha1*range{1}+beta1*psi{1}
+*
+* See Tsay (5.57). Setting range=psi*Y and doing change of variable will obtain range's log likelihood.
+* here's lambda=1/Tsay (5.57)'s lambda
+* here's eta = psi/here's lambda
+*
+frml logl = (psi=durf),(lma=%lngamma(kappa+1.0/alpha)-%lngamma(kappa)),(eta=psi/exp(lma)),$
+   log(alpha)+(kappa*alpha-1)*log(range)-kappa*alpha*log(eta)-%lngamma(kappa)-(range/eta)^alpha
+stats range
+set psi = %mean
+compute alpha0=%mean,alpha1=beta1=0.0,alpha=1.0,kappa=1.0
+maximize(pmethod=simplex,piters=10,iters=500) logl 2 *
