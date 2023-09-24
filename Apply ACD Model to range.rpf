@@ -8,10 +8,10 @@ OPEN DATA "C:\Users\Jimmy\Desktop\d-aapl9907.txt"
 DATA(FORMAT=PRN,NOLABELS,ORG=COLUMNS,TOP=2,LEFT=2) 1 2235 mon day year open high low close volume adjclose
 *
 set range = log(high/low)
+dec series psi
 *
 * EACD(1,1) ---------------------------------------------------------------------
 *
-dec series psi
 nonlin alpha0 alpha1 beta1
 frml psif = alpha0+alpha1*range{1}+beta1*psi{1}
 *
