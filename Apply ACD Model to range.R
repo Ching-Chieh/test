@@ -1,3 +1,7 @@
+# AAPL's range of daily log prices from Jan/4/1999 to Nov/20/2007
+# Range of daily log prices is a robust alternative to volatility modelling.
+# Apply ACD model to model AAPL's range.
+# Tsay, Analysis of Financial Time Series, 3th, p.271
 # EACD(1,1) -----------------------------------------------------------------------
 cat("\014")
 rm(list=ls())
