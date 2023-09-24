@@ -26,8 +26,6 @@ maximize(iters=500) logl 2 *
 *
 * WACD(1,1) ----------------------------------------------------------------------
 *
-* Here it sets the expectation value of range to psi.
-*
 nonlin alpha0 alpha1 beta1 alpha
 frml psif = alpha0+alpha1*range{1}+beta1*psi{1}
 *
