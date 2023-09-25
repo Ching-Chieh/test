@@ -17,8 +17,8 @@ for (i in 1:500) {
                    xinit = S0)
   S=c(S,tail(as.numeric(get.zoo.data(sim1)[[1]]),1))
 }
-max(mean(S-K),0) # call
-# max(mean(K-S),0) # put
+mean(max(S-K,0)) # call
+# mean(max(K-S,0)) # put
 # closed form solution -------------
 r=true_parms[['r']]
 alpha=true_parms[['alpha']]
