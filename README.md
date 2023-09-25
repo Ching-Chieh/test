@@ -16,6 +16,7 @@
   14. Constant Elasticity of Variance (CEV) Model
   15. Vasicek Worst Case Default Rate
   16. Asian Options
+  17. Simulate Heston Model/ Heston Closed-Form Solution for Call Options 
 ## Time Series
   1. Simulate and Estimate GARCH(1,1) without using packages
   2. Simulate and Estimate EGARCH(1,1) without using packages
@@ -39,7 +40,6 @@
   12. Stochastic Volatility
       * State-Space Modelling
       * Markov Chain Monte Carlo
-      * Simulate Heston Model
   13. Gibbs Sampling for parameters of linear regression with AR(2) errors
 ## Corporate Finance (Undisclosed)
   1. Calculation of Crash Risk Measures
