@@ -16,7 +16,8 @@
   14. Constant Elasticity of Variance (CEV) Model
   15. Vasicek Worst Case Default Rate
   16. Asian Options
-  17. Simulate Heston Model/ Heston Closed-Form Solution for Call Options 
+  17. Simulate Heston Model/ Heston Closed-Form Solution for Call Options
+  18. Vasieck / CIR / CKLS
 ## Time Series
   1. Simulate and Estimate GARCH(1,1) without using packages
   2. Simulate and Estimate EGARCH(1,1) without using packages
