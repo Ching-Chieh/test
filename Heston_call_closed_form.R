@@ -1,5 +1,5 @@
 # Heston (1993) A Closed-Form Solution for Options with Stochastic Volatility
-# with Applications to Bonds and Currency options. RFS
+#               with Applications to Bonds and Currency options. RFS
 # Heston call -----------------------------------------------------------------------
 cat("\014")
 rm(list=ls())
