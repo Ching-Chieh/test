@@ -25,7 +25,7 @@ AmericanPutExp <- function(S0, Smin = 0, Smax, T, N = 10, M = 10, K, r, sigma) {
         I <- i + 1
         P[J, I] <- A(j) * P[J + 1, I + 1] + B(j) * P[J, I + 1] + C(j) * P[J - 1, I + 1]
         if (P[J, I] < P[J, N + 1]){
-          if (P[J, I] > 0){   # Just to be consistent with the textbook. When negative, should early exercise.
+          if (P[J, I] > 0){   # There may be some negative values due to numerical instability.
             P[J, I] <- P[J, N + 1]
             EarlyExercise[J, I] <- TRUE
           }
