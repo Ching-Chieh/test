@@ -16,9 +16,9 @@ AmericanPutExp <- function(S0, Smin = 0, Smax, T, N = 10, M = 10, K, r, sigma) {
     P[M + 1, ] <- K
     P[1, ] <- 0
     P[, N + 1] <- sapply(rev(S), function(x) max(K - x, 0))
-    earlyexercise <- matrix(FALSE, M + 1, N + 1)
-    earlyexercise[M + 1, ] <- TRUE
-    earlyexercise[which(P[, N + 1] > 0), N + 1] <- TRUE
+    EarlyExercise <- matrix(FALSE, M + 1, N + 1)
+    EarlyExercise[M + 1, ] <- TRUE
+    EarlyExercise[which(P[, N + 1] > 0), N + 1] <- TRUE
     for (i in (N - 1):0) {
       for (j in 1:(M - 1)) {
         J <- M + 1 - j
@@ -27,14 +27,14 @@ AmericanPutExp <- function(S0, Smin = 0, Smax, T, N = 10, M = 10, K, r, sigma) {
         if (P[J, I] < P[J, N + 1]){
           if (P[J, I] > 0){   # Just to be consistent with the textbook. When negative, should early exercise.
             P[J, I] <- P[J, N + 1]
-            earlyexercise[J, I] <- TRUE
+            EarlyExercise[J, I] <- TRUE
           }
         }
       }
     }
-    colnames(earlyexercise) <- colnames(P)
-    rownames(earlyexercise) <- rownames(P)
-    ans <- list(S0 = S0, P = P, t = t, S = S, earlyexercise = earlyexercise, N = N, M = M)
+    colnames(EarlyExercise) <- colnames(P)
+    rownames(EarlyExercise) <- rownames(P)
+    ans <- list(S0 = S0, P = P, t = t, S = S, EarlyExercise = EarlyExercise, N = N, M = M)
     class(ans) <- "AmericanPut"
     return(invisible(ans))
   }
@@ -48,13 +48,13 @@ plot.AmericanPut <- function(obj) {
       J <- obj$M + 1 - j
       I <- i + 1
       cl <- "grey"
-      if (obj$earlyexercise[J, I]) cl <- "black"
+      if (obj$EarlyExercise[J, I]) cl <- "black"
       text(obj$t[i + 1], obj$S[j + 1], round(obj$P[J, I],2), cex = 0.75, col = cl)
     }
   }
   text(0, obj$S0, round(APut$P[as.character(obj$S0),'0'],2), cex = 0.75, col = 'red')
   dS <- mean(obj$S[1:2])
-  y <- as.numeric(apply(obj$earlyexercise, 2, function(x) which(x)[1]))
+  y <- as.numeric(apply(obj$EarlyExercise, 2, function(x) which(x)[1]))
   lines(obj$t, obj$S[obj$M + 2 - y] + dS, lty = 2)
 }
 cat("\014")
@@ -62,6 +62,3 @@ APut=AmericanPutExp(S0 = 50, Smax = 100, T = 5/12, N = 10, M = 20, K = 50, r = 0
 round(APut$P,2)
 APut$P['50','0']
 plot(APut)
-
-
-
