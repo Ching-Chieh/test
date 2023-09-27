@@ -5,8 +5,8 @@
   3. Binomial Trees Alternative Procedure
   4. Trinomial Trees
   5. Trinomial Trees Alternative Procedure
-  6. Implicit Finite Difference Method (MATLAB)
-  7. Explicit Finite Difference Method (MATLAB, Python, C++)
+  6. Implicit Finite Difference Method (R, MATLAB)
+  7. Explicit Finite Difference Method (R, MATLAB, Python, C++)
   8. Control Variate Technique for European Call
   9. Calculate implied hazard rate from market CDS spread
   10. VaR of a four-index portfolio
