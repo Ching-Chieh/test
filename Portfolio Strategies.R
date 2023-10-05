@@ -60,7 +60,8 @@ for(t in 1:length(testing_time_points)){
     as.matrix()
   realized_return <- returns %>%
     filter(date == testing_time_points[t]) %>%
-    select(-date)
+    select(-date) %>%
+    as.numeric()
   for(j in 1:n_strategies){
     portf_weights[t,j,] <- weights_strategies(temp_data, j, 0.1, 0.1)
     portf_returns[t,j] <- sum(portf_weights[t,j,] * realized_return)
