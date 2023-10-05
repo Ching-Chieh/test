@@ -14,12 +14,12 @@ data_ml <- data_ml %>%
   select(stock_id, month, everything())
 library(frenchdata)
 factors_ff5_monthly_raw <- download_french_data("Fama/French 5 Factors (2x3)")
-FF_factors <- factors_ff5_monthly_raw$subsets$data[[1]] |>
+FF_factors <- factors_ff5_monthly_raw$subsets$data[[1]] %>% 
   mutate(
     month = ymd(str_c(date, "01")),
     across(c(RF, `Mkt-RF`, SMB, HML, RMW, CMA), ~as.numeric(.) / 100),
     .keep = "none"
-  ) |>
+  ) %>% 
   filter(month >= ymd("1963-07-31") & month <= ymd("2020-03-28")) %>% 
   select(month, MKT_RF = `Mkt-RF`, SMB, HML, RMW, CMA, RF)
 # stocks_with_full_data, returns -----------------------------------------------------------------------
@@ -37,7 +37,7 @@ nb_factors <- 5
 df <- stocks_with_full_data %>% 
   left_join(FF_factors, by = "month")
 df_lag <- df %>% 
-  mutate(month = month %m+% months(1)) |>
+  mutate(month = month %m+% months(1)) %>% 
   select(stock_id, month, R1M_Usd_lag = R1M_Usd)
 data_FM <- df %>% 
   left_join(df_lag, by = c("stock_id", "month")) %>% 
@@ -105,9 +105,9 @@ p.value.table <- map_dfr(formulas, function(f) {
   select(`Dep. Variable`, Intercept, MKT_RF, everything())
 signi.star <- function(p.value){
   if (is.na(p.value))       star = "(   )"
-  else if (p.value <= 0.01) star = '(***)'
-  else if (p.value <= 0.05) star = '( **)'
-  else if (p.value <= 0.1)  star = '(  *)'
+  else if (p.value <= 0.01) star = "(***)"
+  else if (p.value <= 0.05) star = "( **)"
+  else if (p.value <= 0.1)  star = "(  *)"
   else star = "(   )"
   star
 }
