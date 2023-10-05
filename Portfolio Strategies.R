@@ -25,7 +25,7 @@ weights_strategies <- function(returns, strategy, alpha, lambda){
   }
   if(strategy == 2){
     # global minimum variance: If there are more assets than dates,
-    # covariance matrix is singular. Use strategies 3
+    # covariance matrix is singular. Use strategy 3
     sigma <- cov(returns)
     w <- solve(sigma) %*% rep(1,N)
     return(w / sum(w))
