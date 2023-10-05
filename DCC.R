@@ -5,7 +5,6 @@
 #
 # 1. Use R and RATS -------------------------------------------------------------------------------------------------------------------------
 # Step 1: Organize data using R  -----------------------------------------------------------------------------
-# Data are from Cappiello, Engle & Sheppard (2006) Asymmetric Dynamics in the Correlations of Global Equity and Bond Returns
 cat("\014")
 rm(list=ls())
 library(tidyverse)
