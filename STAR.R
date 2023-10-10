@@ -2,15 +2,10 @@
 # Ruey S. Tsay, Analysis of Financial Time Series, 3th, p.185
 # This script includes:
 #  1. nlminb
-#     No need too much carefulness in log likelihood function.
-#     Can't get Hessian matrix and thus can't get standard errors. So, I calculate numerical Hessian by myself.
 #     The result is the same with the text.
 #  2. optim L-BFGS-B
-#     Need some carefulness in log likelihood function.
-#     Negative variance results in NA of log likelihood function and stops optimization.
 #     The result is a little different from the text.
 #  3. optim Nelder-Mead with nlminb Start Values
-#     Can get Hessian matrix and thus can get standard errors.
 #     The result is the same with the text.
 #  4. RATS program (much simpler)
 # nlminb ---------------------------------------------------------------------------------------------------
