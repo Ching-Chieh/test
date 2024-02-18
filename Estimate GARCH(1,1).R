@@ -10,7 +10,7 @@ garch11Fit = function(x)
     mu = parm[1]; omega = parm[2]; alpha = parm[3]; beta = parm[4]
     z = (x-mu); Mean = mean(z^2)
     e = omega + alpha * c(Mean, z[-length(x)]^2)
-    h = filter(e, beta, "r", init = Mean)
+    h = stats::filter(e, beta, "r", init = Mean)
     hh = sqrt(abs(h))
     llh = -sum(log(garchDist(z, hh)))
     llh }
@@ -50,7 +50,7 @@ garch11Fit = function(x)
     mu = parm[1]; omega = parm[2]; alpha = parm[3]; beta = parm[4]; v=parm[5]
     z = (x-mu); Mean = mean(z^2)
     e = omega + alpha * c(Mean, z[-length(x)]^2)
-    h = filter(e, beta, "r", init = Mean)
+    h = stats::filter(e, beta, "r", init = Mean)
     hh = sqrt(abs(h))
     llh = -sum(log(garchDist(z, hh, v)))
     llh }
