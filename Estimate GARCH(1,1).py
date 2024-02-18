@@ -52,6 +52,6 @@ def garch11Fit(x):
     print("\nCoefficient(s):\n")
     print(pd.DataFrame(matcoef, columns=col_names, index=["mu", "omega", "alpha", "beta"]))
 # data #######################################################
-df = pd.read_csv("byd.csv")
+df = pd.read_csv("returns.csv")
 x = df['r'].to_numpy()
 garch11Fit(x)
