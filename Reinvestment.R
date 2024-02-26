@@ -40,3 +40,14 @@ table_1 <- df %>%
 invest_horizon <- as.numeric(slice_tail(table_1, n = 1)$date - ymd('2009-01-02')) / 365
 annual_return = (slice_tail(table_1, n = 1)$total_value / C)^(1/invest_horizon) - 1
 annual_return
+# accumulate2 -----------------------------------------------------------------------
+cat("\014")
+rm(list=ls())
+price = 11:15
+div = rep(1,5)
+df <- tibble(price,div)
+calculate <- function(previous_N, price, div){
+  previous_N + div*previous_N/price
+}
+df %>% mutate(N = accumulate2(price, div, calculate, .init = 100)[-1]) %>% 
+  as.data.frame()
