@@ -19,7 +19,7 @@ dividends <- umc.dividends %>%
   as_tibble(rownames = 'date') %>% 
   rename(dividends = '2303.TW.div') %>% 
   mutate(date = ymd(date))
-# check the price at one ex-dividend day: The 'close' at ex-dividend day already minuses dividend.
+# check price at ex-dividend day: The 'close' at ex-dividend day already minuses dividend.
 p %>% filter(date %in% (ymd('2010-07-08') + -1:0))
 dividends %>% filter(date == ymd('2010-07-08'))
 
