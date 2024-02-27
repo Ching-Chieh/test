@@ -1,4 +1,5 @@
 # Some Snippets
+R, Python, MATLAB, and RATS programs
 ## Derivatives Pricing
   1. Black–Scholes–Merton Model
   2. Binomial Trees
