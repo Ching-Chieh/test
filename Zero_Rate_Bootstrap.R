@@ -10,9 +10,9 @@ Bond_creator <- R6Class("Bond", list(
   price = NULL,
   initialize = function(principal = 100, term, coupon, price) {
     stopifnot(is.numeric(principal), length(principal) == 1)
-    stopifnot(is.numeric(term), length(term) == 1)
-    stopifnot(is.numeric(coupon), length(coupon) == 1)
-    stopifnot(is.numeric(price), length(price) == 1)
+    stopifnot(is.numeric(term),      length(term) == 1)
+    stopifnot(is.numeric(coupon),    length(coupon) == 1)
+    stopifnot(is.numeric(price),     length(price) == 1)
     self$principal <- principal
     self$term <- term
     self$coupon <- coupon
@@ -20,10 +20,10 @@ Bond_creator <- R6Class("Bond", list(
   },
   print = function(...) {
     cat("Bond: \n")
-    cat(" Principal: ", self$principal, "\n", sep = "")
-    cat(" Time to maturity: ", self$term, "\n", sep = "")
-    cat(" Coupon: ", self$coupon, "\n", sep = "")
-    cat(" Market price: ", self$price, "\n", sep = "")
+    cat(" Principal: ",        self$principal, "\n", sep = "")
+    cat(" Time to maturity: ", self$term,      "\n", sep = "")
+    cat(" Coupon: ",           self$coupon,    "\n", sep = "")
+    cat(" Market price: ",     self$price,     "\n", sep = "")
     invisible(self)
   }
 ))
