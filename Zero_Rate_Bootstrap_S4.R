@@ -1,6 +1,5 @@
 # John C. Hull. Options, Futures, and Other Derivatives, Global Edition. 9th p.106
 # S4 -----------------------------------------------------------------------
-# 3 -----------------------------------------------------------------------
 cat("\014")
 rm(list=ls())
 setClass("Bond",
