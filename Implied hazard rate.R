@@ -1,18 +1,18 @@
 # Calculate implied hazard rate from market CDS spread
 # John C. Hull. Options, Futures, and Other Derivatives, Global Edition. 9th p.600
+cat("\014")
 rm(list=ls())
-f <- function(h)
-{
-  r <- 0.05
-  s <- 0.01
-  rec <- 0.4
-  sur <- sapply(1:5, function(x) exp(-h*x))
-  def <- c(1-sur[1], -diff(sur))
-  t <- seq(0.5,4.5,1)
-  sum1 <- sum(sur*s*exp(-r*c(1:5)))
-  sum2 <- sum(def*(1-rec)*exp(-r*t))
-  sum3 <- sum(def*0.5*s*exp(-r*t))
-  return(sum1+sum3-sum2)
+f1 <- function(h){
+  t = 1:5
+  t1 = seq(0.5, by = 1, length.out = 5)
+  recovery = 0.4
+  r = 0.05
+  s = 0.01
+  ps = exp(-h*t)
+  pd = c(1-ps[1], -diff(ps))
+  PV_expected_payment = sum(ps*s*exp(-r*t))
+  PV_expected_payoff = sum(pd*(1-recovery)*exp(-r*t1))
+  PV_expected_accrual_payment = sum(pd*0.5*s*exp(-r*t1))
+  PV_expected_payment + PV_expected_accrual_payment - PV_expected_payoff
 }
-result <- uniroot(f, c(0,2), tol = 1e-10)
-result$root
+round(uniroot(f1, interval = c(0,1))$root,4)
