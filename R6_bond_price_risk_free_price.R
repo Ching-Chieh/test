@@ -20,6 +20,7 @@ Bond <- R6Class("Bond",
                     cat(" Principal: ", self$principal, "\n", sep = "")
                     cat(" Time to maturity: ", self$term, "\n", sep = "")
                     cat(" Coupon rate: ", self$coupon_rate*100, " %\n", sep = "")
+                    cat(" ", self$comp_freq, " coupons in a year\n", sep = "")
                     invisible(self)
                   }
                 ),
