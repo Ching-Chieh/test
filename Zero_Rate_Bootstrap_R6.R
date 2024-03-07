@@ -3,7 +3,7 @@
 cat("\014")
 rm(list=ls())
 library(R6)
-Bond_creator <- R6Class("Bond", list(
+Bond <- R6Class("Bond", list(
   principal = 100,
   term = NULL,
   coupon = NULL,
@@ -28,11 +28,11 @@ Bond_creator <- R6Class("Bond", list(
   }
 ))
 
-x1 = Bond_creator$new(principal = 100, term = 0.25, coupon =  0, price =  97.5)
-x2 = Bond_creator$new(principal = 100, term =  0.5, coupon =  0, price =  94.9)
-x3 = Bond_creator$new(principal = 100, term =    1, coupon =  0, price =    90)
-x4 = Bond_creator$new(principal = 100, term =  1.5, coupon =  8, price =    96)
-x5 = Bond_creator$new(principal = 100, term =    2, coupon = 12, price = 101.6)
+x1 = Bond$new(principal = 100, term = 0.25, coupon =  0, price =  97.5)
+x2 = Bond$new(principal = 100, term =  0.5, coupon =  0, price =  94.9)
+x3 = Bond$new(principal = 100, term =    1, coupon =  0, price =    90)
+x4 = Bond$new(principal = 100, term =  1.5, coupon =  8, price =    96)
+x5 = Bond$new(principal = 100, term =    2, coupon = 12, price = 101.6)
 bonds <- list(x1,x2,x3,x4,x5)
 # 2 -----------------------------------------------------------------------
 library(purrr)
