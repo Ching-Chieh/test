@@ -127,7 +127,7 @@ gauher <- function(n) {
   list("x" = x, "w" = w)
 }
 cat("\014")
-M <- 40
+M <- 60
 result <- gauher(M)
 x = result$x*sqrt(2)
 w = result$w/sqrt(pi)
