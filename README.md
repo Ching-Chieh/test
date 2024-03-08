@@ -19,7 +19,7 @@ R, Python, MATLAB, and RATS programs
   16. Vasicek Worst Case Default Rate
   17. Asian Options
   18. Simulate Heston Model / Rough Heston / Heston Closed-Form Solution for Call Options
-  19. Zero rate bootstrap
+  19. Zero rate bootstrap (OOP S4 and R6)
   20. Valuation of a Synthetic CDO (include Gauss-Hermite quadrature)
 ## Time Series
   1. Simulate and Estimate GARCH(1,1) without using packages
