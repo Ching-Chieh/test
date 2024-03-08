@@ -69,7 +69,7 @@ Cf <- function(f) {
   }
   sum0
 }
-# Method 1
+# Method 1 -----------------------------------------------------------------------
 Af1 <- function(f) {
   dnorm(f)*Af(f)
 }
@@ -83,7 +83,7 @@ A = integrate(Af1, -Inf, Inf)$value
 B = integrate(Bf1, -Inf, Inf)$value
 C = integrate(Cf1, -Inf, Inf)$value
 (spread = C/(A+B))
-# Method 2 Gauss-Hermite quadrature
+# Method 2 Gauss-Hermite quadrature -----------------------------------------------------------------------
 gauher <- function(n) {
   EPS <- 1.0e-14
   PIM4 <- 0.7511255444649425
