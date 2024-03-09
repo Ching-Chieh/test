@@ -24,7 +24,7 @@ f1 <- function(h){
   s = s/4
   PV_expected_payment = sum(ps*s*exp(-r*t))
   PV_expected_payoff = sum(pd*(1-R)*exp(-r*t1))
-  PV_expected_accrual_payment = sum(pd*0.25*s*exp(-r*t1))
+  PV_expected_accrual_payment = sum(pd*0.125*s*exp(-r*t1))
   PV_expected_payment + PV_expected_accrual_payment - PV_expected_payoff
 }
 (lambda = uniroot(f1, interval = c(0,1))$root)
