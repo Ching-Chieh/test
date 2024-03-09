@@ -1,3 +1,4 @@
+# John C. Hull. Options, Futures, and Other Derivatives, Global Edition. 9th p.570 Example 24.2
 # Example 24.2 -----------------------------------------------------------------------
 cat("\014")
 rm(list=ls())
