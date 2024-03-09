@@ -23,7 +23,7 @@ Cf1 = function(f) dnorm(f)*Cf(f)
 Af1 = function(f) dnorm(f)*Af(f)
 Bf1 = function(f) dnorm(f)*Bf(f)
 library(pracma)
-C = pracma::integral(Cf1, -Inf, Inf)
+C = pracma::integral(Cf1, -Inf, Inf) # Using stats::integrate() or Gauss-Hermite quadrature approximation will yield wrong answer.
 A = pracma::integral(Af1, -Inf, Inf)
 B = pracma::integral(Bf1, -Inf, Inf)
 round(C,4)
