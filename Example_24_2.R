@@ -32,7 +32,7 @@ for (i in 1:3) {
   f <- function(lamb) {
     lambda[i] <- lamb
     lambda = rep(lambda, each = 2)
-    ps = cumprod(exp(-0.5*lambda))
+    ps = cumprod(exp(-0.5*lambda))   # purrr::accumulate(lambda, ~.x*exp(-0.25*.y), .init = 1)[-1]
     pd = c(1 - ps[1], -diff(ps))
     expect_loss = function(t){
       sum(pvloss[[t]]*pd[1:(2*t)])
