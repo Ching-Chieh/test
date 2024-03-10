@@ -11,8 +11,10 @@ aH = 0.06
 n = 125
 nL = aL*n/(1-R)
 nH = aH*n/(1-R)
-mnL = ceiling(nL)
-mnH = ceiling(nH)
+# m(x): the smallest integer greater than x
+# don't use ceiling()
+mnL = floor(nL) + 1
+mnH = floor(nH) + 1
 r = 0.035
 s = 0.005
 # lambda
