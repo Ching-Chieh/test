@@ -1,3 +1,4 @@
+# John C. Hull. Options, Futures, and Other Derivatives, Global Edition. 9th p.613
 # Compound correlations -----------------------------------------------------------------------
 cat("\014")
 rm(list=ls())
