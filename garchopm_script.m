@@ -1,4 +1,5 @@
 % Duan, GARCH Option Pricing Model, 1995, Mathematical Finance
+
 clc
 clear
 close
