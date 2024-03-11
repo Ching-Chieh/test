@@ -1,3 +1,4 @@
+# Duan, GARCH Option Pricing Model, 1995, Mathematical Finance
 cat("\014")
 rm(list=ls())
 library(quantmod)
