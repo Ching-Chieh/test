@@ -22,7 +22,8 @@ R, Python, MATLAB, and RATS programs
   19. Zero rate bootstrap (OOP S4 and R6)
   20. Valuation of a Synthetic CDO (include Gauss-Hermite quadrature)
   21. Valuation of kth-to-Default CDS (R, Python)
-  22. Imply correlation from the market quotes for CDO tranches
+  22. Imply correlation from the market quotes for CDO tranches (Compound correlation and Base correlation)
+  23. Static options replication for an up-and-out call
 ## Time Series
   1. Simulate and Estimate GARCH(1,1) without using packages
   2. Simulate and Estimate EGARCH(1,1) without using packages
