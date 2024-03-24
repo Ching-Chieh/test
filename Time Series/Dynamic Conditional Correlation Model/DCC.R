@@ -1,19 +1,6 @@
 # This script estimates the Dynamic Conditional Correlation Model using Engle's two-step procedure.
 # Data are from Cappiello, Engle & Sheppard (2006) Asymmetric Dynamics in the Correlations of Global Equity and Bond Returns
-# 1. Use R to manipulate data and use RATS to estimate.
-# 2. All use R
 #
-# 1. Use R and RATS -------------------------------------------------------------------------------------------------------------------------
-# Step 1: Organize data using R  -----------------------------------------------------------------------------
-cat("\014")
-rm(list=ls())
-library(tidyverse)
-read_excel("g.xlsx") %>% 
-  rename_with(tolower) %>% 
-  mutate(across(everything(),~100*log(.x/dplyr::lag(.x)))) %>% 
-  slice(-1) %>% 
-  write_csv('g1.csv')
-# Step 2: Estimate using RATS ---------------------------------------------------------------------------------
 end(reset)
 OPEN DATA "C:\Users\Jimmy\Desktop\g1.csv"
 DATA(FORMAT=PRN,NOLABELS,ORG=COLUMNS,TOP=2) 1 1866 y1 y2 y3 y4 y5
