@@ -1,39 +1,6 @@
 # This script estimates the Dynamic Conditional Correlation Model using Engle's two-step procedure.
 # Data are from Cappiello, Engle & Sheppard (2006) Asymmetric Dynamics in the Correlations of Global Equity and Bond Returns
 #
-end(reset)
-OPEN DATA "C:\Users\Jimmy\Desktop\g1.csv"
-DATA(FORMAT=PRN,NOLABELS,ORG=COLUMNS,TOP=2) 1 1866 y1 y2 y3 y4 y5
-*
-compute n=5
-dec vect[series] y(n)
-do i=1,n
-   set y(i) = ([series]i)
-end do i
-garch(mv=dcc,dcc=correlation) / y
-*
-dec vect[series] u(n) h(n) eps(n)
-do i=1,n
-   garch(p=1,q=1,hseries=h(i),resids=u(i),noprint) / y(i)
-   set eps(i) = u(i)/sqrt(h(i))
-end do i
-vcv(noprint,matrix=qbar)
-# eps
-*
-nonlin a b
-dec frml[symm] qf
-dec series[symm] q ee hh
-*
-gset q  = qbar
-gset ee = qbar
-gset hh = qbar
-gset ee 2 * = %outerxx(%xt(eps,t))
-*
-frml qf   = (1-a-b)*qbar + a*ee{1} + b*q{1}
-frml logl = (q=qf),hh=%corrtocv(%cvtocorr(q),%xt(h,t)),%logdensity(hh,%xt(u,t))
-compute a=0.01, b=0.5
-maximize logl 2 *
-# 2. All use R --------------------------------------------------------------------------------------------------------------------------------
 cat("\014")
 rm(list=ls())
 library(tidyverse)
