@@ -25,6 +25,7 @@ R, Python, MATLAB, and RATS programs
   22. Imply correlation from the market quotes for CDO tranches (Compound correlation and Base correlation)
   23. Static options replication for an up-and-out call (include all Barrier options analytic formulae)
   24. Kou, S. (2002). Jump diffusion model for option pricing
+  25. Longstaff and Schwartz (2001), Least-Squares Approach
 ## Time Series
   1. Simulate and Estimate GARCH(1,1) without using packages
   2. Simulate and Estimate EGARCH(1,1) without using packages
