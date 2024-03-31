@@ -138,7 +138,7 @@ for (i in 1:5) {
 C
 PVEL = c(0,cumsum(C))
 # Table 25.6 doesn't have the quote for tranche 22%-100%.
-# X = 100% can't be plot.
+# X = 100% can't be plotted.
 library(ggplot2)
 library(scales)
 ggplot(data.frame(X=a, y=PVEL), aes(X,y)) +
