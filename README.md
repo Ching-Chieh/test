@@ -51,7 +51,7 @@ R, Python, MATLAB, and RATS programs
       * Markov Chain Monte Carlo
   13. Gibbs Sampling for parameters of linear regression with AR(2) errors
   14. Portfolio strategies (Shrinkage GMV, Sparse-hedging approach)
-## Corporate Finance (Undisclosed)
+## Corporate Finance
   1. Calculation of Crash Risk Measures
   2. Calculation of Organizational Capital
   3. Estimation of Discretionary Accruals (Modified Jones Model and Leave-One-Out Regression)
