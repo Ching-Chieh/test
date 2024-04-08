@@ -73,11 +73,11 @@ mm = nlminb(start_values, nlogl,
               rep(-1+S,N)                 # correlations  (2,1) (3,2) (3,1)
             ),
             upper = c(
-              20*abs(apply(da,2,mean)),  # mean
-              20*diag(rr),               # vcv
-              rep(1-S,N),                # vav
-              rep(1-S,N),                # vbv
-              rep(1-S,N)                 # correlations  (2,1) (3,2) (3,1)
+              20*abs(apply(da,2,mean)),   # mean
+              20*diag(rr),                # vcv
+              rep(1-S,N),                 # vav
+              rep(1-S,N),                 # vbv
+              rep(1-S,N)                  # correlations  (2,1) (3,2) (3,1)
             )
 )
 
@@ -107,7 +107,7 @@ params = c(
   0.00818, 0.18336, 0.04149, # vcv
   0.04320, 0.06187, 0.01178, # vav
   0.94428, 0.91661, 0.98135, # vbc
-  0.51954, 0.47771, 0.48626
+  0.51954, 0.47771, 0.48626  # correlations  (2,1) (3,2) (3,1)
 )
 u = da - matrix(1,T,1)%*%matrix(params[1:N],1,N)
 vcv = matrix(params[(N+1):(2*N)],N,1)
