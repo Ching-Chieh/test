@@ -85,7 +85,7 @@ compute hfcccgarch=hx
 end
 *
 nonlin(parmset=garchparms) vcv vav vbv qc
-declare frml[symm] hf
+dec frml[symm] hf
 frml hf = hfcccgarch(t)
 frml logl = $
  	    hx = hf(t) , $
