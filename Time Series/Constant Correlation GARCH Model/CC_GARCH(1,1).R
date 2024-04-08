@@ -163,7 +163,7 @@ m[2,3:4] = 0
 m[3,4] = 0
 m  # 21 stands for correlation between asset 1 and asset 2
    # 32 stands for correlation between asset 2 and asset 3
-# when we go from params' left to right
-# first 4 is diagonal 21,32,43,54
-# and then 31,41,51,  42,52,  53
-# python is different: from left to right and then go to next row
+# When we go from params' left to right
+# first 4 is diagonal 21,32,43,54     and then 31,41,51,  42,52,  53
+# Python is different: from left to right and then go to the next row
+# When dimension>=5 this problem arises.
