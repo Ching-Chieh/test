@@ -1,7 +1,4 @@
-# This scripts includes:
-# 1. Use GARCH(1,1) to calculate time-varying Beta of TSLA
-# 2. Use a state-space model to calculate time-varying Alpha and Beta of AAPL
-# Time-Varying Beta of TSLA, GARCH ----------------------------------------------------------------------------------
+# Use GARCH(1,1) to calculate time-varying Beta of TSLA
 cat("\014")
 rm(list=ls())
 library(tidyverse)
@@ -43,54 +40,3 @@ ggplot(df, aes(date,beta)) +
   scale_x_date(date_breaks = "1 year",date_labels = "%Y") + 
   labs(y = "Beta",
        title = 'Time-Varying Beta of TSLA')
-# AAPL Time-Varying CAPM - State-Space Model -----------------------------------------------------------
-# Step 1: Download S&P500 and AAPL data using R ---------------------
-cat("\014")
-rm(list=ls())
-library(tidyverse)
-library(lubridate)
-quantmod::getSymbols(c('^GSPC','AAPL'), from = '2010-01-01')
-sp500 <- GSPC %>%
-  as_tibble(rownames = 'date') %>% 
-  mutate(date=ymd(date)) %>% 
-  select(date, sp500.close = GSPC.Close)
-aapl <- AAPL %>% 
-  as_tibble(rownames = 'date') %>% 
-  mutate(date=ymd(date)) %>% 
-  select(date, aapl.close = AAPL.Close)
-sp500 %>% 
-  left_join(aapl, by = 'date') %>% 
-  drop_na() %>% 
-  mutate(sp500=log(sp500.close/lag(sp500.close)),
-         aapl=log(aapl.close/lag(aapl.close))) %>% 
-  drop_na() %>% 
-  select(date,sp500,aapl) %>% 
-  write_csv('d-sp500aapl1023.csv')
-# Step 2: State-Space Modelling using RATS ---------------------
-end(reset)
-OPEN DATA "C:\Users\Jimmy\Desktop\d-sp500aapl1023.csv"
-DATA(FORMAT=PRN,NOLABELS,ORG=COLUMNS,TOP=2,LEFT=2) 1 3442 sp aapl
-nonlin leps leta
-compute leps=leta=0.0
-dlm(y=aapl,c=||1.0,sp||,sv=1.0,var=concentrate,sw=%diag(||exp(leta),exp(leps)||),$
-   presample=ergodic,method=bfgs,type=smoothed) / xstates vstates
-*
-? "Measurement Stdev" @20 sqrt(%variance)
-? "Alpha Stdev" @20 sqrt(%variance*exp(leta))
-? "Beta Stdev" @20 sqrt(%variance*exp(leps))
-*
-set alpha = xstates(t)(1)
-set beta  = xstates(t)(2)
-set expret = %dot(||1.0,sp||,xstates)
-*
-print / alpha beta expret
-spgraph(hfields=2,vfields=2,footer="AAPL Time-varying CAPM")
-graph(hlabel="Return")
-# aapl
-graph(hlabel="Expected return")
-# expret
-graph(hlabel="Alpha")
-# alpha
-graph(hlabel="Beta")
-# beta
-spgraph(done)
