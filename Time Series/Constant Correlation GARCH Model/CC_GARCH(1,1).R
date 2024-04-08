@@ -153,6 +153,10 @@ sum(-(log(sapply(seq(dim(h)[3]), \(t) det(h[,,t]))) + llv)) # closest to SAS' lo
 cat("\014")
 rm(list=ls())
 idx = matrix(c(11:14,21:24,31:34,41:44), 4, byrow=TRUE)
+
+idx[lower.tri(idx)] = c(111,222,333,444,555,666)
+
+idx = matrix(c(11:14,21:24,31:34,41:44), 4, byrow=TRUE)
 m = idx + 10
 m[1,2:4] = 0
 m[2,3:4] = 0
