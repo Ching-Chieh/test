@@ -148,4 +148,4 @@ for (t in 1:T) {
   llv[i] = c(t(u[t,])%*%solve(h[,,t])%*%u[t,])
 }
 sum(-N/2*log(2*pi) - 0.5*(log(sapply(seq(dim(h)[3]), \(t) det(h[,,t]))) + llv))
-sum(-(log(sapply(seq(dim(h)[3]), \(t) det(h[,,t]))) + llv))
+sum(-(log(sapply(seq(dim(h)[3]), \(t) det(h[,,t]))) + llv)) # closest to SAS' log likelihood
