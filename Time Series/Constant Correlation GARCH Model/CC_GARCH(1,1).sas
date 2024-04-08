@@ -1,7 +1,7 @@
 dm 'odsresults;  clear';
 dm 'log; clear; output; clear;';
 PROC IMPORT OUT= WORK.da 
-            DATAFILE= "C:\Users\Jimmy\Desktop\da.csv" 
+            DATAFILE= "C:\Users\Jimmy\Desktop\d-spcscointc.csv" 
             DBMS=CSV REPLACE;
      GETNAMES=YES;
      DATAROW=2; 
