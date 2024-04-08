@@ -149,3 +149,17 @@ for (t in 1:T) {
 }
 sum(-N/2*log(2*pi) - 0.5*(log(sapply(seq(dim(h)[3]), \(t) det(h[,,t]))) + llv))
 sum(-(log(sapply(seq(dim(h)[3]), \(t) det(h[,,t]))) + llv)) # closest to SAS' log likelihood
+# 2 -----------------------------------------------------------------------
+cat("\014")
+rm(list=ls())
+idx = matrix(c(11:14,21:24,31:34,41:44), 4, byrow=TRUE)
+m = idx + 10
+m[1,2:4] = 0
+m[2,3:4] = 0
+m[3,4] = 0
+m  # 21 stands for correlation between asset 1 and asset 2
+   # 32 stands for correlation between asset 2 and asset 3
+# when we go from params' left to right
+# first 4 is diagonal 21,32,43,54
+# and then 31,41,51,  42,52,  53
+# python is different: from left to right and then go to next row
