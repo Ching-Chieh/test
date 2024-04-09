@@ -140,7 +140,3 @@ llv = sapply(1:T, \(t) c(t(u[t,])%*%solve(h[,,t])%*%u[t,]))
 # sum(-N/2*log(2*pi) - 0.5*(log(sapply(seq(dim(h)[3]), \(t) det(h[,,t]))) + llv))
 # sum(-(log(sapply(seq(dim(h)[3]), \(t) det(h[,,t]))) + llv))
 sum(-0.5*(log(sapply(seq(dim(h)[3]), \(t) det(h[,,t]))) + llv))
-
-
-
-
