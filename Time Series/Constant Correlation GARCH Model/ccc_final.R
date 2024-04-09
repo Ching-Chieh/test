@@ -90,7 +90,7 @@ names(pars) = c(
   'rho(1,2)','rho(2,3)', 'rho(1,3)'
 )
 pars
-# Use SAS' estimators to replicate SAS' log likelihood -----------------------------------------------------------------------
+# Use SAS' estimates to replicate SAS' log likelihood -----------------------------------------------------------------------
 cat("\014")
 rm(list=ls())
 da=unname(as.matrix(read.table('d-spcscointc.txt', header = TRUE)))
