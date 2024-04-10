@@ -10,15 +10,21 @@ start_time <- proc.time()
 nlogl <- function(params) {
   cat('...', cnt, '...........\n')
   u = da - matrix(1,T,1)%*%matrix(params[1:N],1,N)
-  vcv = matrix(params[(N+1):(2*N)],N,1)
-  vav = matrix(params[(2*N+1):(3*N)],N,1)
-  vbv = matrix(params[(3*N+1):(4*N)],N,1)
+  # vcv = matrix(params[(N+1):(2*N)],N,1)
+  # vav = matrix(params[(2*N+1):(3*N)],N,1)
+  # vbv = matrix(params[(3*N+1):(4*N)],N,1)
+  
+  vcv = params[(N+1):(2*N)]
+  vav = params[(2*N+1):(3*N)]
+  vbv = params[(3*N+1):(4*N)]
+  
   qc = diag(params[(4*N+1):(5*N-1)]) # correlation matrix
   qc[lower.tri(qc)] = params[(5*N):(5*N+(N-1)*(N-2)/2-1)]
   for (t in 2:T) {
     # fill matrix h's diagonal
     for (i in 1:N) {
-      h[i,i,t] = vcv[i,1] + vav[i,1]*tcrossprod(u[t-1,])[i,i] + vbv[i,1]*h[i,i,t-1]
+      # h[i,i,t] = vcv[i,1] + vav[i,1]*tcrossprod(u[t-1,])[i,i] + vbv[i,1]*h[i,i,t-1]
+      h[i,i,t] = vcv[i] + vav[i]*tcrossprod(u[t-1,])[i,i] + vbv[i]*h[i,i,t-1]
     }
     # fill matrix h's entries below diagonal
     for (i in 2:N) {
