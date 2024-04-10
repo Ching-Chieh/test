@@ -27,9 +27,9 @@ for t = 2:T
             h(i,j,t) = qc(i-1,j) * sqrt(h(i,i,t) * h(j,j,t));
         end
     end
-    for ii = 1:(N-1)
-        for jj = (ii+1):N
-            h(ii,jj,t) = h(jj,ii,t);
+    for i = 1:(N-1)
+        for j = (i+1):N
+            h(i,j,t) = h(j,i,t);
         end
     end
 end
