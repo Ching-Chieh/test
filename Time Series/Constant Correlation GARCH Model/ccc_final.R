@@ -34,9 +34,9 @@ nlogl <- function(params) {
     }
     # fill matrix h's entries above diagonal 
     
-    # method 1  # This is a wrong method to create a symmetric matrix. Don't use. Only valid for 2, 3-dim matrix.
+    # method 1  
     # tmp = h[,,t]
-    # tmp[upper.tri(tmp)] = tmp[lower.tri(tmp)]
+    # tmp[lower.tri(tmp)] = t(tmp)[lower.tri(tmp)]  # tmp[upper.tri(tmp)] = tmp[lower.tri(tmp)]  # This is wrong.
     # h[,,t] = tmp
     
     # method 2
