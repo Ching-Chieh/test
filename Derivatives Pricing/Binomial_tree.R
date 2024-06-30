@@ -1,4 +1,4 @@
-# binomial --------------------------------------------------------------------
+# binomial Example 21.1--------------------------------------------------------------------
 cat("\014")
 rm(list=ls())
 binomial_tree <- function(OptionType, ExerciseType, S0, K, T, sigma, r, q, N) {
