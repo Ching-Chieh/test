@@ -1,0 +1,865 @@
+#include <iostream>
+#include <algorithm>
+#include <vector>
+using namespace std;
+
+int main() {
+   cout << "----------------------------------------------------" << endl;
+   
+   vector<int> vec = {10, 20, 30, 40, 50};
+   auto it = upper_bound(vec.begin(), vec.end(), 30);
+   auto it2 = lower_bound(vec.begin(), vec.end(), 30);
+   if (it != vec.end())
+   {
+      int index = it - vec.begin();
+      cout << "大於 30 的第一個元素是: " << *it << endl;
+      cout << "該元素的 index 是: " << index << endl;
+   }
+   if (it2 != vec.end())
+   {
+      int index2 = it2 - vec.begin();
+      cout << "大於等於 30 的第一個元素是: " << *it2 << endl;
+      cout << "該元素的 index 是: " << index2 << endl;
+   }
+   
+   cout << "----------------------------------------------------" << endl;
+   return 0;
+}
+
+
+// vector max_element min_element #########################################################################################################
+#include <iostream>
+#include <vector>
+#include <algorithm>  // for max_element, min_element
+using namespace std;
+
+int main() {
+    vector<int> vec = {15, 8, 42, 4, 23};
+
+    auto max_it = max_element(vec.begin(), vec.end());
+    auto min_it = min_element(vec.begin(), vec.end());
+
+    int max_index = max_it - vec.begin();
+    int min_index = min_it - vec.begin();
+
+    cout << "最大值是: " << *max_it << ", 索引是: " << max_index << endl;
+    cout << "最小值是: " << *min_it << ", 索引是: " << min_index << endl;
+
+    return 0;
+}
+
+// 回傳值為reference ###################################################################################################################################
+
+#include <iostream>
+using namespace std;
+
+int &getElements(int [], int);
+
+int main() {
+   cout << "----------------------------------------------------" << endl;
+
+   
+   int arr[] = {10, 20, 30, 40, 50};
+
+   for (int x : arr) cout << x << " ";
+   cout << endl;
+
+   getElements(arr,2) = 3000;
+   for (int x : arr) cout << x << " ";
+   cout << endl;
+
+   for (size_t i = 0; i < sizeof(arr) / sizeof(arr[0]); ++i) cout << arr[i] << " ";
+   cout << endl;
+
+
+   cout << "----------------------------------------------------" << endl;
+   return 0;
+}
+
+int &getElements(int a[], int n)
+{
+	return a[n];
+}
+
+// 錯誤範例  ###################################################################################################################################
+#include <iostream>
+using namespace std;
+
+int max(int []);
+int min(int []);
+
+int main() {
+   cout << "----------------------------------------------------" << endl;
+
+   
+   int arr[] = {10, 20, 30, 40, 50};
+   for (int x : arr) cout << x << " ";
+   cout << endl;
+
+   cout << max(arr) << endl;
+   cout << min(arr) << endl;
+
+   cout << "----------------------------------------------------" << endl;
+   return 0;
+}
+
+int max(int arr[])
+{
+   int max_value=arr[0];
+   for (int x : arr) // 陣列在傳遞給函式時會退化成指標，沒有陣列大小的資訊
+   {
+      if (x > max_value)  max_value = x;
+   }
+	return max_value;
+}
+int min(int arr[])
+{
+   int min_value=arr[0];
+   for (int x : arr)
+   {
+      if (x < min_value)  min_value = x;
+   }
+	return min_value;
+}
+
+
+// 傳入陣列大小  ###################################################################################################################################
+#include <iostream>
+using namespace std;
+
+int max(int arr[], int size);
+int min(int arr[], int size);
+
+int main() {
+   cout << "----------------------------------------------------" << endl;
+   
+   int arr[] = {10, 20, 30, 40, 50};
+   int size = sizeof(arr) / sizeof(arr[0]);
+
+   cout << max(arr, size) << endl;
+   cout << min(arr, size) << endl;
+   
+   
+   cout << "----------------------------------------------------" << endl;
+   return 0;
+}
+
+int max(int arr[], int size)
+{
+   int max_value = arr[0];
+   for (int i = 1; i < size; i++)
+   {
+      if (arr[i] > max_value) max_value = arr[i];
+   }
+   return max_value;
+}
+
+int min(int arr[], int size)
+{
+   int min_value = arr[0];
+   for (int i = 1; i < size; i++)
+   {
+      if (arr[i] < min_value) min_value = arr[i];
+   }
+   return min_value;
+}
+
+// 改用vector  ###################################################################################################################################
+#include <iostream>
+#include <vector>
+using namespace std;
+
+int max(const vector<int>& arr); //const: 保護資料不被修改，&: 不複製 vector
+int min(const vector<int>& arr);
+
+int main() {
+   cout << "----------------------------------------------------" << endl;
+   
+   vector<int> arr = {10, 20, 30, 40, 50};
+   cout << max(arr) << endl;
+   cout << min(arr) << endl;
+   
+   cout << "----------------------------------------------------" << endl;
+   return 0;
+}
+
+int max(const vector<int>& arr)
+{
+   int max_value = arr[0];
+   for (const int& x : arr)
+   {
+      if (x > max_value) max_value = x;
+   }
+   return max_value;
+}
+
+int min(const vector<int>& arr)
+{
+   int min_value = arr[0];
+   for (const int& x : arr)
+   {
+      if (x < min_value) min_value = x;
+   }
+   return min_value;
+}
+
+// template  ###################################################################################################################################
+#include <iostream>
+#include <vector>
+using namespace std;
+
+template <typename T> T max(const vector<T>&);
+template <typename T> T min(const vector<T>&);
+
+int main() {
+	cout << "----------------------------------------------------" << endl;
+	
+	
+    vector<int> arr_int = {10, 20, 30, 40, 50};
+    vector<double> arr_double = {1.5, 2.3, 0.7, 4.4};
+
+    cout << max(arr_int) << endl;      // 50
+    cout << min(arr_int) << endl;      // 10
+    cout << max(arr_double) << endl;   // 4.4
+    cout << min(arr_double) << endl;   // 0.7
+
+	cout << "----------------------------------------------------" << endl;
+    return 0;
+}
+
+template <typename T>
+T max(const vector<T>& arr) {
+    T max_value = arr[0];
+    for (const T& x : arr) {
+        if (x > max_value) max_value = x;
+    }
+    return max_value;
+}
+
+template <typename T>
+T min(const vector<T>& arr) {
+    T min_value = arr[0];
+    for (const T& x : arr) {
+        if (x < min_value) min_value = x;
+    }
+    return min_value;
+}
+
+// 成績輸入  ###################################################################################################################################
+#include <iostream>
+using namespace std;
+#define MAX 5
+
+int main() {
+	cout << "----------------------------------------------------" << endl;
+	
+    int score[MAX];
+    int i=0,num;
+    float sum=0.0f;
+
+    do
+    {
+        cout << "已輸入 " << i << " 個" << endl;
+        cout << endl;
+        if (i==MAX)
+        {
+            i++;
+            break;
+        }
+        cout << "Input: ";
+        cin >> score[i];
+    } while (score[i++]>0);
+
+    cout << "i= " << i << endl;
+    num=i-1;
+    cout << "總共 " << num << " 個" << endl;
+    
+    for (size_t i = 0; i < num; i++) sum+=score[i];
+    cout << "Average= " << sum/num << endl;
+
+	cout << "----------------------------------------------------" << endl;
+    return 0;
+}
+
+//   ###################################################################################################################################
+#include <iostream>
+using namespace std;
+
+int main() {
+    int a = 5, b = 10;
+    int temp;
+
+    temp = a;
+    a = b;
+    b = temp;
+
+    cout << "a = " << a << ", b = " << b << endl;
+    return 0;
+}
+//   ###################################################################################################################################
+#include <iostream>
+using namespace std;
+
+int main() {
+    int a = 5, b = 10;
+
+    a = a + b;
+    b = a - b;
+    a = a - b;
+
+    cout << "a = " << a << ", b = " << b << endl;
+    return 0;
+}
+
+//   ###################################################################################################################################
+#include <iostream>
+using namespace std;
+
+int main() {
+    int a = 5, b = 10;
+
+    a = a ^ b;
+    b = a ^ b;
+    a = a ^ b;
+
+    cout << "a = " << a << ", b = " << b << endl;
+    return 0;
+}
+
+//   ###################################################################################################################################
+#include <iostream>
+#include <algorithm>
+using namespace std;
+
+int main() {
+    int a = 5, b = 10;
+
+    swap(a, b);
+
+    cout << "a = " << a << ", b = " << b << endl;
+    return 0;
+}
+//   ###################################################################################################################################
+#include <iostream>
+#include <algorithm>
+#include <utility>  // for std::pair
+using namespace std;
+
+template<typename T1, typename T2>
+pair<T2, T1> swapPair(pair<T1, T2> p) {
+    return make_pair(p.second, p.first);
+}
+
+template<typename T>
+void swapPairInPlace(pair<T, T>& p) {
+    swap(p.first, p.second); // std::swap 必須是相同型別，所以不能T1, T2
+}
+
+int main() {
+	cout << "----------------------------------------------------" << endl;
+	
+    pair<int, int> myPair = {5, 10};
+    pair<int, int> swapped = swapPair(myPair);
+	swapPairInPlace(myPair);
+    cout << "a = " << swapped.first << ", b = " << swapped.second << endl;
+	cout << "a = " << myPair.first << ", b = " << myPair.second << endl;
+	
+	cout << "----------------------------------------------------" << endl;
+    return 0;
+}
+
+// array address ###################################################################################################################################
+#include <iostream>
+// #include <vector>
+using namespace std;
+
+int main() {
+    cout << "----------------------------------------------------" << endl;
+
+    int a[5] = {1,2,3,4,5};
+
+    cout << 1 << endl;
+    for (int val : a) cout << &val << endl; // 全都是local variable val的位址
+    cout << endl;
+
+    cout << 2 << endl;
+    for (int& val : a) cout << &val << endl;
+    cout << endl;
+
+    cout << 3 << endl;
+    for (size_t i = 0; i < 5; i++) cout << &a[i] << endl;
+    cout << endl;
+
+    cout << "----------------------------------------------------" << endl;
+    return 0;
+}
+
+
+
+// 字串、指標 ###################################################################################################################################
+#include <iostream>
+using namespace std;
+
+// 以下皆正確
+int main() {
+    cout << "----------------------------------------------------" << endl;
+
+    char str1[] = "How are you?";
+    cout << "(str1+4): " << (str1+4) << endl;
+    cout << "\n";
+
+    char *p1 = "How are you?";
+    cout << "(p1+4): " << (p1+4) << endl;
+    cout << "\n";
+
+    cout << "(str2[i]+1): " << endl;
+    char str2[3][10] = {"Tom", "Lilly", "James Lee"};
+    for (size_t i = 0; i < 3; i++)
+        cout << (str2[i]+1) << endl;
+    cout << "\n";
+
+    cout << "(p2[i]+1): " << endl;
+    char *p2[3] = {"Tom", "Lilly", "James Lee"};
+    for (size_t i = 0; i < 3; i++)
+        cout << (p2[i]+1) << endl;
+    cout << "\n";
+
+
+    cout << "----------------------------------------------------" << endl;
+    return 0;
+}
+// while (cin >> value)  ###################################################################################################################################
+#include <iostream>
+using namespace std;
+
+int main() {
+    cout << "----------------------------------------------------" << endl;
+
+    int value, sum = 0;
+    cout << "輸入數字: ";
+    while (cin >> value) {
+        sum += value;
+        if (cin.get() == '\n') break;
+    }
+
+    cout << "總和: " << sum << "\n";
+    
+    cout << "----------------------------------------------------" << endl;
+    return 0;
+}
+
+//   ###################################################################################################################################
+#include <iostream>
+#include <sstream>
+using namespace std;
+
+int main() {
+    cout << "----------------------------------------------------" << endl;
+
+    string line;
+    int value, sum = 0, lastValue;
+
+    cout << "輸入數字: ";
+    getline(cin, line);
+    stringstream ss(line);
+
+    while (ss >> value)
+        sum += value;
+    
+    cout << "sum= " << sum << "\n";
+
+    cout << "----------------------------------------------------" << endl;
+
+    return 0;
+}
+// 用參照、指標 更改較大變數的值  ###################################################################################################################################
+#include <iostream>
+using namespace std;
+
+int &max_ref(int &, int &);
+int *max_ptr(int *, int *);
+
+int main() {
+    cout << "----------------------------------------------------" << endl;
+
+    int i = 10, j = 20;
+
+    max_ref(i, j) = 100;
+    cout << "reference: " << endl;
+    cout << "i= " << i << endl;
+    cout << "j= " << j << endl;
+
+    i = 10, j = 20;
+
+    *max_ptr(&i, &j) = 100;
+    cout << "pointer: " << endl;
+    cout << "i= " << i << endl;
+    cout << "j= " << j << endl;
+
+    cout << "----------------------------------------------------" << endl;
+    return 0;
+}
+
+int &max_ref(int &i, int &j) {
+    if (i > j) return i;
+    else return j;
+}
+
+int *max_ptr(int *p1, int *p2) {
+    if (*p1 > *p2) return p1;
+    else return p2;
+}
+
+
+
+// lambda, sort ###################################################################################################################################
+#include <iostream>
+#include <algorithm>
+#include <vector>
+#include <string>
+
+using namespace std;
+
+int word2Num(const string& str) {
+    int sum = 0;
+    for (const char& ch : str)
+        sum+=int(tolower(ch))-96;
+    return sum;
+}
+
+int main() {
+	cout << "----------------------------------------------------" << endl;
+	
+    // count
+    int count = 0;
+    auto increment = [&count]() {count++;};
+    
+    increment();
+    increment();
+    
+    //
+    int x = 1, y = 2;
+    auto multiply = [&](int a, int b) {
+        x=x*a;
+        y=y*b;
+    };
+    multiply(10, 1000);
+    cout << "x= " << x << endl;
+    cout << "y= " << y << endl;
+    cout << endl;
+    
+    // print vector
+    vector<int> a = {2,1,9,7,3};
+    cout << "print a" << endl;
+    for_each(a.begin(), a.end(), [](int x) {
+        cout << x << " ";
+    });
+    cout << endl;
+    
+    // sort descending
+    cout << "sort descending" << endl;
+    sort(a.begin(), a.end(), [](int a, int b) {
+        return a > b;
+    });
+    for (int i: a) cout << i << " ";
+    cout << endl;
+    
+    // sort by length of string (descending)
+    vector<string> b = {"Tom", "Christopher", "Merton", "Lilly"};
+    cout << "sort by length" << endl;
+    sort(b.begin(), b.end(), [](const string& s1, const string& s2) {
+        return s1.length() > s2.length();
+    });
+
+    for (const auto& name : b)
+        cout << name << " ";
+    cout << endl;
+    
+    // sort by word2Num
+    vector<string> c = {"PEN", "pineapplepen", "pineapple", "applepen", "apple"};
+    cout << "word2Num: " << endl;
+    for_each(c.begin(), c.end(), [](string str) {
+        cout << word2Num(str) << " ";
+    });
+    cout << endl;
+    
+    cout << "before: " << endl;
+    for_each(c.begin(), c.end(), [](string str) {cout << str << " ";});
+    cout << endl;
+    
+    cout << "after: " << endl;
+    sort(c.begin(), c.end(), [](const string& s1, const string& s2) {
+        return word2Num(s1) < word2Num(s2);
+    });
+    for_each(c.begin(), c.end(), [](string str) {cout << str << " ";});
+    cout << endl;
+	
+	
+    cout << "----------------------------------------------------" << endl;
+    return 0;
+}
+
+// struct 中含有 union ###################################################################################################################################
+#include <iostream>
+
+using std::cout;
+using std::cin;
+using std::endl;
+
+struct mydata {
+    int type; // 1 or 2
+    union {
+        char grade; // 'A'
+        int score; // 99
+    } data;
+};
+
+int main() {
+    cout << "----------------------------------------------------" << endl;
+
+    mydata test;
+    int num;
+    do {
+        cout << "Enter 1(等第) or 2(分數): ";
+        (cin >> num).get();
+    } while (num != 1 && num != 2);
+
+    test.type = num;
+    if (test.type == 1)
+    {
+        cout << "輸入 成績等第: ";
+        cin.get(test.data.grade);
+        cout << "成績等第= " << test.data.grade << endl;
+    } else {
+        cout << "輸入 成績分數: ";
+        cin >> test.data.score;
+        cout << "成績分數= " << test.data.score << endl;
+    }
+  
+    cout << "----------------------------------------------------" << endl;
+    return 0;
+}
+// enum ###################################################################################################################################
+#include <iostream>
+
+using std::cout;
+using std::cin;
+using std::endl;
+// using namespace std; std::left會跟ReactToMyKey中left衝突
+
+enum myKey { left, middle, right };
+void ReactToMyKey(enum myKey key){
+    switch(key) {
+        case left:
+            cout << "Left Button Pressed!" << endl;
+            break;
+        case middle:
+            cout << "Middle Button Pressed!" << endl;
+            break;
+        case right:
+            cout << "Right Button Pressed!" << endl;
+            break;
+    }
+}
+
+int main() {
+    cout << "----------------------------------------------------" << endl;
+    int value;
+    do {
+        cout << "(0)Left (1)Middle (2)Right: ";
+        cin >> value;
+    } while(value < 0 || value > 2);
+    myKey key1 = static_cast<myKey>(value);
+    
+    ReactToMyKey(key1);
+    cout << "----------------------------------------------------" << endl;
+    return 0;
+}
+// enum ###################################################################################################################################
+#include <iostream>
+
+using namespace std;
+enum trafficLight { Red, Yellow, Green };
+void ReactToLight(enum trafficLight light) {
+	switch(light) {
+		case Red:
+			cout << "Stop!" << endl;
+			break;
+		case Yellow:
+			cout << "Ready to stop!" << endl;
+			break;
+		case Green:
+			cout << "Go!" << endl;
+			break;
+	}
+}
+int main() {
+    cout << "----------------------------------------------------" << endl;
+    
+    
+    ReactToLight(Green);
+    cout << "----------------------------------------------------" << endl;
+    return 0;
+}
+
+// struct中含struct ###################################################################################################################################
+#include <iostream>
+#include <string>
+using namespace std;
+
+struct classData {
+    string name;
+    char gender;    // 'm': male, 'f': female
+    int height;
+    int weight;
+    int age;
+
+    struct {
+        int exam1;
+        int midterm;
+        int finalExam;
+    } test;
+};
+
+int main() {
+    classData student1;
+    
+    student1.name = "Alice";
+    student1.gender = 'f';
+    student1.height = 160;
+    student1.weight = 50;
+    student1.age = 20;
+    student1.test.exam1 = 80;
+    student1.test.midterm = 85;
+    student1.test.finalExam = 90;
+
+    cout << "Name: " << student1.name << endl;
+    cout << "Final Exam: " << student1.test.finalExam << endl;
+
+    return 0;
+}
+// 定義class obj 如何用 cout 印出 ###################################################################################################################################
+#include <iostream>
+using namespace std;
+
+class Ferrari {
+    public:
+    int w, h, l;
+    const char* model;
+};
+// cout << myCar 相當於 operator<<(cout, myCar);
+// cout屬於 class ostream
+ostream& operator<<(ostream &os, const Ferrari &obj) {// os是cout的參照
+    os << "**************" << endl;
+    os << "Ferrari " << obj.model << endl;
+    os << "w= " << obj.w << endl;
+    os << "h= " << obj.h << endl;
+    os << "l= " << obj.l << endl;
+    os << "**************" << endl;
+    return os;
+}
+
+int main() {
+    Ferrari myCar;
+    myCar.w = 1500;
+    myCar.h = 180;
+    myCar.l = 1500;
+    myCar.model = "258 GTO";
+    cout << myCar << endl;
+
+    return 0;
+}
+//  ###################################################################################################################################
+#include <iostream>
+using namespace std;
+class Foo {
+    int value = 10;
+
+public:
+    int get() {
+        value++;
+        return value;
+    }
+
+    int get() const {
+        // value++;
+        return value;
+    }
+};
+
+int main() {
+    Foo a;
+    const Foo b;
+
+    cout << a.get() << endl; // 調用非 const 版本
+    cout << b.get() << endl; // 調用 const 版本
+}
+
+// 用vector實作 class Stack ###################################################################################################################################
+#include <vector>
+
+class Stack {
+private:
+    std::vector<int> data;
+
+public:
+    void push(int value) {
+        data.push_back(value);
+    }
+
+    void pop() {
+        if (!data.empty()) {
+            data.pop_back();
+        } else {
+            std::cout << "Stack is empty!" << std::endl;
+        }
+    }
+
+    int top() const {
+        if (!data.empty()) {
+            return data.back();
+        } else {
+            throw std::out_of_range("Stack is empty");
+        }
+    }
+
+    bool isEmpty() const {
+        return data.empty();
+    }
+};
+// 用 deque實作 class Queue ###################################################################################################################################
+#include <deque>
+
+class Queue {
+private:
+    std::deque<int> data;
+
+public:
+    void enqueue(int value) {
+        data.push_back(value);  // 從尾端加入元素
+    }
+
+    void dequeue() {
+        if (!data.empty()) {
+            data.pop_front();  // 從前端移除元素
+        } else {
+            std::cout << "Queue is empty!" << std::endl;
+        }
+    }
+
+    int front() const {
+        if (!data.empty()) {
+            return data.front();  // 回傳最前面的元素
+        } else {
+            throw std::out_of_range("Queue is empty");
+        }
+    }
+
+    bool isEmpty() const {
+        return data.empty();
+    }
+};
+
+
+
+

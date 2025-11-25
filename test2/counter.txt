@@ -1,0 +1,78 @@
+// lambda function + mutable
+// mutable: 有記憶能力的function
+#include <iostream>
+using namespace std;
+
+int main() {
+    int count = 999;
+
+    auto counter = [count=0]() mutable {
+        count++;
+        cout << "count = " << count << endl;
+    };
+
+    counter(); // 1
+    counter(); // 2
+    counter(); // 3
+    cout << "outside count = " << count << endl; // 0（跟外部count無關)
+}
+
+
+
+// double lambda function + mutable
+#include <iostream>
+using namespace std;
+
+int main() {
+	auto makeCounter = [](int start) {
+		return [count = start]() mutable {
+			return ++count;
+		};
+	};
+
+	auto counter1 = makeCounter(0);
+	auto counter2 = makeCounter(100);
+
+	cout << counter1() << endl; // 1
+	cout << counter1() << endl; // 2
+	
+	cout << counter2() << endl; // 101
+	cout << counter2() << endl; // 102
+}
+-----------------------------------------------------------------------------------------------------------------------------
+# Python closure
+def make_counter():
+    count = 0
+
+    def counter():
+        nonlocal count  # 外部變數
+        count += 1
+        return count
+
+    return counter
+
+c1 = make_counter()
+print(c1())
+print(c1())
+print(c1())
+c2 = make_counter()
+print(c2())
+
+-----------------------------------------------------------------------------------------------------------------------------
+# R Function factories, Stateful functions
+new_counter <- function() {
+  i <- 0
+  
+  function() {
+    i <<- i + 1
+    i
+  }
+}
+
+c1 <- new_counter()
+c2 <- new_counter()
+
+c1()
+c1()
+c2()
+
