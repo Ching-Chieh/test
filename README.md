@@ -7,7 +7,7 @@ R, Python, MATLAB, and RATS programs
 3. Period: 2021-06-01 ~ 2025-10-31
 4. Benchmark: Buy-and-Hold Strategy
 5. Net Profit: 2,276,000
-<sub>
+
 | No. | Strategies | Net Profit | Profit Factor | Number of Trades | Win Rate | Reward-Risk Ratio | Max Drawdown | Profit for Long Trades | Profit for Short Trades | SQN | Frequency | Remarks |
 |:---|:---------------------------|-----------:|----:|------:|---------:|------------------:|-------------:|----------------:|------------------------:|----:|----------:|:--------|
 |      1 | Foreign OI                              | 2,665,286 | 2          | 77           | 38.96% | 3        | -1,140,727     | 2,665,286  |            | 2     | 5min   |               |
@@ -61,7 +61,7 @@ R, Python, MATLAB, and RATS programs
 |     49 | High Low Channel with Trailing Stoploss | 2,654,234 | 2          | 63           | 42.86% | 3        | -1,069,302     | 2,032,812  | 621,422    | 2     | 1D     |               |
 |     50 | Momentum 2                              | 2,519,104 | 2          | 128          | 60.94% | 2        | -482,856       | 2,519,104  |            | 3     | 15min  |               |
 |     51 | CCI Crossing Strategy                   | 4,461,582 | 2          | 149          | 42.95% | 3        | -999,030       | 3,389,680  | 1,071,902  | 3     | 15min  |               |
-</sub>
+
 
 
 ## Derivatives Pricing
