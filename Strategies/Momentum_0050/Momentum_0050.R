@@ -33,7 +33,7 @@ return_df <- df_wide %>%
   filter(date >= ymd("2017-11-30")) %>% 
   mutate(across(-date, ~.x / lag(.x) - 1)) %>% 
   drop_na
-# df_wide:  2017-12-01 ~ 2025-11-28 完整96個月
+# return_df:  2017-12-01 ~ 2025-11-28 完整96個月
 month_return_df <- return_df %>% 
   mutate(year = year(date), month = month(date)) %>% 
   summarise(across(-date, ~prod(1 + .x) - 1), .by = c(year, month))
@@ -230,4 +230,5 @@ f2(3) # e.g. # 用1, 2, 3月資料形成portfolio，在5月底的該月return
 f2(4)
 f2(5)
 f2(6)
+
 
