@@ -65,3 +65,27 @@ for(i in 1:20){
   cc1 <- c(cc1,c1)
 }
 round(cc1,3)
+# 2 -----------------------------------------------------------------------
+cat("\014")
+rm(list=ls())
+set.seed(0)
+M=100 # time intervals
+I=50000 # paths
+
+S0 = 36.
+T = 1.
+r = 0.06
+sigma = 0.2
+dt = T / M
+
+rn=matrix(rnorm((M+1)*I), M+1)
+rn[1,] = 0
+N = matrix(0:M, M+1, I)
+S=exp(log(S0) + (r-0.5*sigma^2) * N * dt + sigma * sqrt(dt) * apply(rn, 2, cumsum))
+K=40
+exp(-r*T)*mean(pmax(K-S[M+1,], 0))
+# BS
+q=0
+d1 = (log(S0/K) + (r-q+0.5*sigma^2)*T)/(sigma*sqrt(T))
+d2 = d1 - sigma*sqrt(T)
+K*exp(-r*T)*pnorm(-d2) - S0*exp(-q*T)*pnorm(-d1)
