@@ -64,6 +64,7 @@ R, Python, MATLAB, and RATS programs
 |    52 | Awesome_Oscillator_1                    | 5,885,066    | 2.33            |                187 | 47.59%     | 2.56                | -724,168       | 4,124,924                | 1,760,142                 | 3.77  | 10min       |               |
 |    53 | Awesome_Oscillator_3                    | 5,549,364    | 2.65            |                 98 | 45.92%     | 3.12                | -553,292       | 4,135,310                | 1,414,054                 | 3.41  | 5min        |               |
 |    54 | ROCEMA                                  | 3,072,276    | 2.76            |                 82 | 48.78%     | 2.89                | -691,466       | 2,227,304                | 844,972                   | 2.55  | 20min       |               |
+|    55 | Momentum Surge Strategy                 | 3,783,038    | 2.07            |                141 | 47.52%     | 2.29                | -433,076       | 3,007,820                | 775,218                   | 2.47  | 20min       |               |
 
 ## Derivatives Pricing
   1. Black–Scholes–Merton Model
