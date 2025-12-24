@@ -112,7 +112,7 @@ def max_drawdown_dollar(stats):
     drawdown = peak - equity
     return drawdown.max()
 
-def equity_drawdown_ratio(stats):
+def net_profit_drawdown_ratio(stats):
     net_profit = stats['Equity Final [$]'] - cash
     max_dd = max_drawdown_dollar(stats)
 
@@ -126,7 +126,7 @@ stats, heatmap, optimize_result = bt.optimize(
     slowk_period=[3, 40],
     slowd_period=[3, 40],
     low_value=[10, 70],
-    maximize=equity_drawdown_ratio,
+    maximize=net_profit_drawdown_ratio,
     method='sambo',
     max_tries=1000,
     random_state=0,
@@ -141,4 +141,5 @@ print(f"Net profit= {stats['Equity Final [$]']-cash:,.0f}")
 #%% best parameters
 stats = bt.run(fastk_period = , slowk_period = , slowd_period = , low_value = )
 print("\nNumber of trades=", len(stats['_trades']))
+
 print(f"Net profit= {stats['Equity Final [$]']-cash:,.0f}")
