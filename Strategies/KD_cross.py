@@ -118,7 +118,9 @@ def net_profit_drawdown_ratio(stats):
 
     if max_dd == 0:
         return -1e9
-
+    #if stats['# Trades'] < 30:
+    #    return -1e9
+    
     return net_profit / max_dd
 
 stats, heatmap, optimize_result = bt.optimize(
@@ -143,3 +145,4 @@ stats = bt.run(fastk_period = , slowk_period = , slowd_period = , low_value = )
 print("\nNumber of trades=", len(stats['_trades']))
 
 print(f"Net profit= {stats['Equity Final [$]']-cash:,.0f}")
+
